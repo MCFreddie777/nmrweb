@@ -1,5 +1,7 @@
 <template>
-    <div class="w-36 sm:w-48 md:w-56 xl:w-64 h-screen bg-gray-800 shadow-lg">
+    <div class="flex flex-col w-36 sm:w-48 md:w-56 xl:w-64 bg-gray-800 shadow-lg">
+
+        <!--   Logo     -->
         <router-link to="/">
             <div class="logo flex p-4 justify-center bg-yellow-500">
                 <svg version="1.1" viewBox="0 0 252.11 65" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
@@ -23,47 +25,69 @@
             </div>
         </router-link>
 
+        <nav class="flex flex-col flex-1" >
 
-        <nav class="flex flex-col">
-
-            <!-- Navigation group-->
-            <div
-                v-for="navGroup in navigation"
+            <navigation-item-group
+                v-for="(group,index) in navigation"
+                v-bind:key="index"
                 class="mt-10"
-            >
-                <p class="uppercase text-sm text-gray-500 font-bold mb-2 pl-6">{{ navGroup.title }}</p>
+                :group="group"
+            />
 
-                <!-- Navigation items-->
-                <div class="flex flex-col"
-                     v-for="(navItem,index) in navGroup.items"
-                     v-bind:key="index"
+            <div>
+                <a
+                    href="#"
+                    class="router-link flex items-center px-6 py-2 hover:bg-gray-700 text-gray-600 hover:text-gray-500"
+                    @click.prevent="logout"
                 >
-                    <router-link
-                        :to="navItem.path"
-                        class="router-link flex items-center text-gray-600 px-6 py-2 hover:bg-gray-700 hover:text-gray-500"
-                    >
-                        <i :class="navItem.icon" class="w-1/6"/>
-                        <span class="text-md pl-1 w-5/6">{{ navItem.title }}</span>
-                    </router-link>
-
-                </div>
-
+                    <i class="fas fa-sign-out-alt w-1/6"/>
+                    <span class="text-md pl-1 w-5/6">Odhlásiť sa</span>
+                </a>
             </div>
+
+
+            <div class="flex flex-1 items-end">
+                <a
+                    href="#"
+                    class="text-gray-600 hover:text-gray-500 p-5 w-full text-center"
+                    @click.prevent="toggleNavigation"
+                >
+                    <i
+                        class="fas"
+                        :class="classObjects['navigationToggle']"
+                    />
+                </a>
+            </div>
+
         </nav>
     </div>
 </template>
 
 <script>
+    import NavigationItemGroup from "./NavigationItemGroup";
+
     export default {
         name: "Navigation",
+
+        components: {
+            NavigationItemGroup,
+        },
 
         methods: {
             isActive(path) {
                 return this.$route.path.indexOf(path) === 0
+            },
+
+            logout() {
+                console.warn("Logout");
+            },
+
+            toggleNavigation() {
+                this.collapsed = !this.collapsed;
             }
         },
 
-        data: function () {
+        data() {
             return {
                 navigation: [
                     {
@@ -99,25 +123,17 @@
                                 icon: 'fas fa-lock',
                                 title: 'Zmena hesla'
                             },
-                            {
-                                path: '/logout',
-                                icon: 'fas fa-sign-out-alt',
-                                title: 'Odhlásiť sa',
-                            }
                         ]
                     },
-                ]
+                ],
+                classObjects: {
+                    navigationToggle: {
+                        'fa-chevron-right': this.collapsed,
+                        'fa-chevron-left': !this.collapsed,
+                    }
+                },
+                collapsed: false,
             }
         }
     }
 </script>
-
-<style scoped lang="scss">
-    .router-link.router-link-active {
-        i {
-            @apply .text-yellow-500;
-        }
-
-        @apply .bg-gray-700 .border-r-4 .border-yellow-500 .text-gray-500;
-    }
-</style>

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import Navigation from "../components/Navigation";
+    import Navigation from "../components/Navigation/Navigation";
 
     export default {
         name: "BasicView",

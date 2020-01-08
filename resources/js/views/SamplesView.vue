@@ -1,6 +1,6 @@
 <template>
-    <div>
-        johny johny yes papa
+    <div class="p-6">
+        SamplesView.vue
     </div>
 </template>
 
