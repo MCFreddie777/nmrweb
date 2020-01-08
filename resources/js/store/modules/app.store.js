@@ -1,6 +1,6 @@
 const state = {
     navigation: {
-        collapsed: false, // todo: fetch the setting from the api
+        collapsed: false,
         items: [
             {
                 title: '',
@@ -63,7 +63,6 @@ const actions = {
 
 const mutations = {
     toggleNavigation(state) {
-        // todo: send request preferences
         state.navigation.collapsed = !state.navigation.collapsed
     }
 };
