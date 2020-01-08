@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from "vue-router";
 import BaseView from "./views/BaseView";
 import SamplesView from "./views/SamplesView";
+import LoginView from "./views/LoginView";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,13 @@ export default new VueRouter({
                 }
             ]
         },
+        {
+            path: '/login',
+            component: LoginView,
+            meta: {
+                title: 'Prihlásenie'
+            }
+        }
     ],
     mode: 'history'
 });

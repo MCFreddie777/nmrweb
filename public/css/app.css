@@ -826,7 +826,7 @@ video {
 }
 
 .bg-yellow-400{
-  background-color: #FFED4A;
+  background-color: #f7bf00;
 }
 
 .bg-yellow-500{
@@ -1194,7 +1194,7 @@ video {
 }
 
 .hover\:bg-yellow-400:hover{
-  background-color: #FFED4A;
+  background-color: #f7bf00;
 }
 
 .hover\:bg-yellow-500:hover{
@@ -1562,7 +1562,7 @@ video {
 }
 
 .focus\:bg-yellow-400:focus{
-  background-color: #FFED4A;
+  background-color: #f7bf00;
 }
 
 .focus\:bg-yellow-500:focus{
@@ -2010,7 +2010,7 @@ video {
 }
 
 .border-yellow-400{
-  border-color: #FFED4A;
+  border-color: #f7bf00;
 }
 
 .border-yellow-500{
@@ -2378,7 +2378,7 @@ video {
 }
 
 .hover\:border-yellow-400:hover{
-  border-color: #FFED4A;
+  border-color: #f7bf00;
 }
 
 .hover\:border-yellow-500:hover{
@@ -2746,7 +2746,7 @@ video {
 }
 
 .focus\:border-yellow-400:focus{
-  border-color: #FFED4A;
+  border-color: #f7bf00;
 }
 
 .focus\:border-yellow-500:focus{
@@ -6512,23 +6512,23 @@ video {
 }
 
 .placeholder-yellow-400::-webkit-input-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .placeholder-yellow-400::-moz-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .placeholder-yellow-400:-ms-input-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .placeholder-yellow-400::-ms-input-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .placeholder-yellow-400::placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .placeholder-yellow-500::-webkit-input-placeholder{
@@ -8352,23 +8352,23 @@ video {
 }
 
 .focus\:placeholder-yellow-400:focus::-webkit-input-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .focus\:placeholder-yellow-400:focus::-moz-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .focus\:placeholder-yellow-400:focus:-ms-input-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .focus\:placeholder-yellow-400:focus::-ms-input-placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .focus\:placeholder-yellow-400:focus::placeholder{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .focus\:placeholder-yellow-500:focus::-webkit-input-placeholder{
@@ -9903,7 +9903,7 @@ video {
 }
 
 .text-yellow-400{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .text-yellow-500{
@@ -10271,7 +10271,7 @@ video {
 }
 
 .hover\:text-yellow-400:hover{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .hover\:text-yellow-500:hover{
@@ -10639,7 +10639,7 @@ video {
 }
 
 .focus\:text-yellow-400:focus{
-  color: #FFED4A;
+  color: #f7bf00;
 }
 
 .focus\:text-yellow-500:focus{
@@ -17472,7 +17472,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:bg-yellow-400{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .sm\:bg-yellow-500{
@@ -17840,7 +17840,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:hover\:bg-yellow-400:hover{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .sm\:hover\:bg-yellow-500:hover{
@@ -18208,7 +18208,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:focus\:bg-yellow-400:focus{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .sm\:focus\:bg-yellow-500:focus{
@@ -18656,7 +18656,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:border-yellow-400{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .sm\:border-yellow-500{
@@ -19024,7 +19024,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:hover\:border-yellow-400:hover{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .sm\:hover\:border-yellow-500:hover{
@@ -19392,7 +19392,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:focus\:border-yellow-400:focus{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .sm\:focus\:border-yellow-500:focus{
@@ -23158,23 +23158,23 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:placeholder-yellow-400::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:placeholder-yellow-400::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:placeholder-yellow-400:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:placeholder-yellow-400::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:placeholder-yellow-400::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:placeholder-yellow-500::-webkit-input-placeholder{
@@ -24998,23 +24998,23 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:focus\:placeholder-yellow-400:focus::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:focus\:placeholder-yellow-400:focus::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:focus\:placeholder-yellow-400:focus:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:focus\:placeholder-yellow-400:focus::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:focus\:placeholder-yellow-400:focus::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:focus\:placeholder-yellow-500:focus::-webkit-input-placeholder{
@@ -26549,7 +26549,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:text-yellow-400{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:text-yellow-500{
@@ -26917,7 +26917,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:hover\:text-yellow-400:hover{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:hover\:text-yellow-500:hover{
@@ -27285,7 +27285,7 @@ readers do not read off random characters that represent icons */
   }
 
   .sm\:focus\:text-yellow-400:focus{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .sm\:focus\:text-yellow-500:focus{
@@ -28176,7 +28176,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:bg-yellow-400{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .md\:bg-yellow-500{
@@ -28544,7 +28544,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:hover\:bg-yellow-400:hover{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .md\:hover\:bg-yellow-500:hover{
@@ -28912,7 +28912,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:focus\:bg-yellow-400:focus{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .md\:focus\:bg-yellow-500:focus{
@@ -29360,7 +29360,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:border-yellow-400{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .md\:border-yellow-500{
@@ -29728,7 +29728,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:hover\:border-yellow-400:hover{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .md\:hover\:border-yellow-500:hover{
@@ -30096,7 +30096,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:focus\:border-yellow-400:focus{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .md\:focus\:border-yellow-500:focus{
@@ -33862,23 +33862,23 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:placeholder-yellow-400::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:placeholder-yellow-400::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:placeholder-yellow-400:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:placeholder-yellow-400::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:placeholder-yellow-400::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:placeholder-yellow-500::-webkit-input-placeholder{
@@ -35702,23 +35702,23 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:focus\:placeholder-yellow-400:focus::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:focus\:placeholder-yellow-400:focus::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:focus\:placeholder-yellow-400:focus:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:focus\:placeholder-yellow-400:focus::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:focus\:placeholder-yellow-400:focus::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:focus\:placeholder-yellow-500:focus::-webkit-input-placeholder{
@@ -37253,7 +37253,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:text-yellow-400{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:text-yellow-500{
@@ -37621,7 +37621,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:hover\:text-yellow-400:hover{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:hover\:text-yellow-500:hover{
@@ -37989,7 +37989,7 @@ readers do not read off random characters that represent icons */
   }
 
   .md\:focus\:text-yellow-400:focus{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .md\:focus\:text-yellow-500:focus{
@@ -38880,7 +38880,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:bg-yellow-400{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .lg\:bg-yellow-500{
@@ -39248,7 +39248,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:hover\:bg-yellow-400:hover{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .lg\:hover\:bg-yellow-500:hover{
@@ -39616,7 +39616,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:focus\:bg-yellow-400:focus{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .lg\:focus\:bg-yellow-500:focus{
@@ -40064,7 +40064,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:border-yellow-400{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .lg\:border-yellow-500{
@@ -40432,7 +40432,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:hover\:border-yellow-400:hover{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .lg\:hover\:border-yellow-500:hover{
@@ -40800,7 +40800,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:focus\:border-yellow-400:focus{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .lg\:focus\:border-yellow-500:focus{
@@ -44566,23 +44566,23 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:placeholder-yellow-400::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:placeholder-yellow-400::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:placeholder-yellow-400:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:placeholder-yellow-400::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:placeholder-yellow-400::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:placeholder-yellow-500::-webkit-input-placeholder{
@@ -46406,23 +46406,23 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:focus\:placeholder-yellow-400:focus::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:focus\:placeholder-yellow-400:focus::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:focus\:placeholder-yellow-400:focus:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:focus\:placeholder-yellow-400:focus::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:focus\:placeholder-yellow-400:focus::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:focus\:placeholder-yellow-500:focus::-webkit-input-placeholder{
@@ -47957,7 +47957,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:text-yellow-400{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:text-yellow-500{
@@ -48325,7 +48325,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:hover\:text-yellow-400:hover{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:hover\:text-yellow-500:hover{
@@ -48693,7 +48693,7 @@ readers do not read off random characters that represent icons */
   }
 
   .lg\:focus\:text-yellow-400:focus{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .lg\:focus\:text-yellow-500:focus{
@@ -49584,7 +49584,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:bg-yellow-400{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .xl\:bg-yellow-500{
@@ -49952,7 +49952,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:hover\:bg-yellow-400:hover{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .xl\:hover\:bg-yellow-500:hover{
@@ -50320,7 +50320,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:focus\:bg-yellow-400:focus{
-    background-color: #FFED4A;
+    background-color: #f7bf00;
   }
 
   .xl\:focus\:bg-yellow-500:focus{
@@ -50768,7 +50768,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:border-yellow-400{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .xl\:border-yellow-500{
@@ -51136,7 +51136,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:hover\:border-yellow-400:hover{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .xl\:hover\:border-yellow-500:hover{
@@ -51504,7 +51504,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:focus\:border-yellow-400:focus{
-    border-color: #FFED4A;
+    border-color: #f7bf00;
   }
 
   .xl\:focus\:border-yellow-500:focus{
@@ -55270,23 +55270,23 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:placeholder-yellow-400::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:placeholder-yellow-400::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:placeholder-yellow-400:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:placeholder-yellow-400::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:placeholder-yellow-400::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:placeholder-yellow-500::-webkit-input-placeholder{
@@ -57110,23 +57110,23 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:focus\:placeholder-yellow-400:focus::-webkit-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:focus\:placeholder-yellow-400:focus::-moz-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:focus\:placeholder-yellow-400:focus:-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:focus\:placeholder-yellow-400:focus::-ms-input-placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:focus\:placeholder-yellow-400:focus::placeholder{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:focus\:placeholder-yellow-500:focus::-webkit-input-placeholder{
@@ -58661,7 +58661,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:text-yellow-400{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:text-yellow-500{
@@ -59029,7 +59029,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:hover\:text-yellow-400:hover{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:hover\:text-yellow-500:hover{
@@ -59397,7 +59397,7 @@ readers do not read off random characters that represent icons */
   }
 
   .xl\:focus\:text-yellow-400:focus{
-    color: #FFED4A;
+    color: #f7bf00;
   }
 
   .xl\:focus\:text-yellow-500:focus{

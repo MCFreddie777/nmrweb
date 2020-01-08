@@ -13,7 +13,6 @@
     <meta property="og:title" content="{{ config('app.name') }}">
     <meta property="og:description" content="{{ config('app.description') }}">
 
-    {{--  TODO --}}
     <link rel="icon" type="image/png" href="">
     <link rel="apple-touch-icon" href="">
 
