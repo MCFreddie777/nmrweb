@@ -20,7 +20,7 @@
     <title>{{ config('app.name') }}</title>
 
     <style>
-        @keyframes rotator {
+        @keyframes rot {
             0% {
                 transform: rotate(0deg);
             }
@@ -55,7 +55,7 @@
             height="65px"
             viewBox="0 0 66 66"
             xmlns="http://www.w3.org/2000/svg"
-            style="animation: rotator 1.4s linear infinite; position: fixed; z-index: 99; margin: auto; left: 0; top: 0; right: 0; bottom: 0;"
+            style="animation: rot 1.4s linear infinite; position: fixed; z-index: 99; margin: auto; left: 0; top: 0; right: 0; bottom: 0;"
         >
             <circle
                 fill="none"
