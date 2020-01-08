@@ -1,12 +1,12 @@
 <template>
-    <div class="p-6">
-        SamplesView.vue
+    <div>
+        FilesView.vue
     </div>
 </template>
 
 <script>
     export default {
-        name: "SamplesView"
+        name: "FilesView"
     }
 </script>
 
