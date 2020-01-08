@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import router from "./router";
+import store from "./store";
+
 import App from './components/App'
 
 window._ = require('lodash');
@@ -11,5 +13,6 @@ const app = new Vue({
     components: {
         App,
     },
-    router
+    router,
+    store,
 });
