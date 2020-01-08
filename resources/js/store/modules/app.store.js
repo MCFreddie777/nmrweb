@@ -53,16 +53,13 @@ const getters = {
 };
 
 const actions = {
-    // fetchVariable1({commit}) {
-    //     return new Promise((resolve, reject) => {
-    // commit('SET_VARIABLE_1', data);
-    // resolve();
-    // });
-    // },
+    toggleNavigation: (context) => {
+        context.commit('TOGGLE_NAVIGATION');
+    }
 };
 
 const mutations = {
-    toggleNavigation(state) {
+    TOGGLE_NAVIGATION(state) {
         state.navigation.collapsed = !state.navigation.collapsed
     }
 };

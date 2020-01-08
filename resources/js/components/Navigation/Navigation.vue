@@ -135,7 +135,7 @@
                 <a
                     href="#"
                     class="text-gray-600 hover:text-gray-500 p-5 w-full text-center"
-                    @click.prevent="$store.commit('App/toggleNavigation')"
+                    @click.prevent="$store.dispatch('App/toggleNavigation')"
                 >
                     <i
                         class="fas"
@@ -173,8 +173,7 @@
             },
 
             logout() {
-                // Authservice
-                console.warn("Logout");
+                this.$store.dispatch('Auth/logOut');
             },
         },
     }

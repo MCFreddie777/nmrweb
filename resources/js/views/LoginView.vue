@@ -92,7 +92,7 @@
 
         methods: {
             login() {
-
+                this.$store.dispatch('Auth/logIn')
             },
 
             old(param) {

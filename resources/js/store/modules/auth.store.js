@@ -1,5 +1,8 @@
+import router from '../../router'
+
 const state = {
     user: {},
+    isLogged: false,
     csrf: '',
 };
 
@@ -11,16 +14,28 @@ const getters = {
 };
 
 const actions = {
-    // fetchVariable1({commit}) {
-    //     return new Promise((resolve, reject) => {
-    // commit('SET_VARIABLE_1', data);
-    // resolve();
-    // });
-    // },
+    logIn: (context) => {
+        context.commit('LOGIN');
+        router.push('/');
+    },
+
+    logOut: (context) => {
+        context.commit('LOGOUT');
+        router.push('/login');
+    },
 };
 
-const mutations = {};
+const mutations = {
+    LOGOUT(state) {
+        state.user = {};
+        state.isLogged = false;
+    },
 
+    LOGIN(state) {
+        // state.user
+        state.isLogged = true;
+    }
+};
 
 export default {
     namespaced: true,
