@@ -16,52 +16,40 @@
                 <form method="POST" action="/" class="pt-16" @submit.prevent="login">
 
                     <div class="relative">
-
                         <label
                             for="email"
                             class="uppercase text-gray-600 text-xs font-bold absolute pl-3 pt-2"
                         >
                             Login
                         </label>
-
-                        <div>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                class="pt-8 w-full rounded p-2 px-3 bg-gray-300 text-gray-700 outline-none placeholder-gray-500"
-                                :value="old('email')"
-                                required
-                                autocomplete="email"
-                                autofocus
-                                placeholder="vasa@adresa.sk"
-                            >
-                        </div>
-
+                        <ui-input
+                            type="text"
+                            name="email"
+                            :value="old('email')"
+                            :required="true"
+                            :autofocus="true"
+                            placeholder="vasa@adresa.sk"
+                            labeled
+                            w-full
+                        />
                     </div>
 
                     <div class="relative pt-3">
-
                         <label
                             for="password"
                             class="uppercase text-gray-600 text-xs font-bold absolute pl-3 pt-2"
                         >
                             Heslo
                         </label>
-
-                        <div>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                class="pt-8 w-full rounded p-2 px-3 bg-gray-300 text-gray-700 outline-none placeholder-gray-500"
-                                required
-                                autocomplete="current-password"
-                                placeholder="*********"
-
-                            >
-                        </div>
-
+                        <ui-input
+                            type="password"
+                            name="password"
+                            :value="old('password')"
+                            :required="true"
+                            placeholder="*********"
+                            labeled
+                            w-full
+                        />
                     </div>
 
 
@@ -81,8 +69,14 @@
 </template>
 
 <script>
+    import UiInput from "../components/ui/UiInput";
+
     export default {
         name: "LoginView.vue",
+
+        components: {
+            UiInput,
+        },
 
         computed: {
             csrf: function () {
