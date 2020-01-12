@@ -28,6 +28,8 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    .disabled {
+        @apply text-gray-600;
+    }
 </style>
