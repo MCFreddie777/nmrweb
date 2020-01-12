@@ -14,10 +14,16 @@ module.exports = {
                 }
             },
             width: {
-                '96': '24rem'
+                '96': '24rem',
+                '112': '28rem',
+                '128': '32rem',
             }
         }
     },
-    variants: {},
+    variants: {
+        padding: ['responsive', 'first', 'hover', 'focus', 'last'],
+        cursor: ['hover'],
+        background: ['hover']
+    },
     plugins: []
 }
