@@ -1,22 +1,22 @@
 <template>
     <div
-        id="navigation"
         class="flex flex-col bg-gray-800 shadow-lg"
         :class="collapsed ? 'w-24' : 'w-36 sm:w-48 md:w-56 xl:w-64'"
+        style="transition: width 0.1s ease-in-out;"
     >
 
         <!--   Logo     -->
         <router-link to="/">
             <div
-                class="logo flex justify-center bg-yellow-500"
+                class="logo flex justify-center bg-yellow-500 h-16"
             >
                 <svg version="1.1"
                      viewBox="0 0 252.11 65"
                      xml:space="preserve"
                      xmlns="http://www.w3.org/2000/svg"
                      style="fill: white"
-                     class="py-6 h-full"
-                     :class="collapsed ? 'px-2 w-full' : 'w-1/2'"
+                     class=" h-full"
+                     :class="collapsed ? 'px-2 w-full py-6' : 'w-full py-4'"
                 >
                 <defs>
                     <clipPath id="clipPath18">
@@ -178,9 +178,3 @@
         },
     }
 </script>
-
-<style scoped lang="scss">
-    #navigation {
-        transition: width 0.2s ease-in-out;
-    }
-</style>

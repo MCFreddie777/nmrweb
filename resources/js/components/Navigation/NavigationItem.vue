@@ -13,7 +13,7 @@
             />
             <span
                 class="text-md w-5/6"
-                :class="collapsed ? 'w-full text-center mt-2 px-1' : 'pl-1'"
+                :class="collapsed ? 'w-full text-center mt-2 px-1 ' : 'pl-1'"
             >{{ item.title }}</span>
         </router-link>
     </div>
