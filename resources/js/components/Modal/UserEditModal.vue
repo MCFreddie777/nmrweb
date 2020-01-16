@@ -40,18 +40,16 @@
             </div>
         </div>
         <div class="flex justify-end">
-            <button
-                class="border border-gray-600 text-gray-600 hover:bg-gray-200"
+            <ui-button
+                class="secondary"
                 @click="$store.dispatch('Modal/dismiss')"
-            >
-                Cancel
-            </button>
-            <button
+                text="Cancel"
+            />
+            <ui-button
                 @click="save"
-                class="ml-1 bg-yellow-500 text-white hover:bg-yellow-400"
-            >
-                Save
-            </button>
+                class="ml-1 primary"
+                text="Save"
+            />
         </div>
     </div>
 </template>
@@ -60,6 +58,7 @@
     import UiInput from "../ui/UiInput";
     import helpers from '../../helpers';
     import UiCheckbox from "../ui/UiCheckbox";
+    import UiButton from "../ui/UiButton";
 
     export default {
         name: "UserEditModal",
@@ -77,7 +76,8 @@
 
         components: {
             UiInput,
-            UiCheckbox
+            UiCheckbox,
+            UiButton
         },
 
         methods: {
@@ -106,11 +106,6 @@
     }
 </script>
 
-<style scoped lang="scss">
-    button {
-        @apply rounded px-2 py-1 w-16;
-        &:focus {
-            @apply outline-none;
-        }
-    }
+<style scoped>
+
 </style>
