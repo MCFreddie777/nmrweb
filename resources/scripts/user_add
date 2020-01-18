@@ -1,0 +1,57 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+	echo "Nutne zadat najprv login!"
+	exit 2
+fi
+if [ -z $2 ]; then
+	echo "Nutne zadat heslo!"
+	exit 2
+fi
+case  $3 in
+	1) lokalny=1;;
+	0) lokalny=0;;
+	*) lokalny=0;;
+esac
+case $4 in
+	1) share=1;;
+	0) share=0;;
+	*) share=0;;
+esac
+case $5 in
+	1) spravca=1;;
+	0) spravca=0;;
+	*) spravca=0;;
+esac
+
+if [ $lokalny -eq 1 ]; then
+	echo "Vytvaram lokalny ucet\n"
+	/usr/sbin/useradd -s /bin/bash -m -d /home/$1 $1
+else
+	/usr/sbin/useradd -M -s /sbin/nologin -d /dev/null $1
+fi
+	echo "$1:$2"|/usr/sbin/chpasswd
+
+echo "Vytvaram samba usera $1\n"
+/usr/bin/smbpasswd -e $1 -w $2 > /dev/null
+(echo $2; echo $2) | /usr/bin/smbpasswd -a -s $1
+echo -e "$1 = $1" >> /etc/samba/smbusers
+
+if [ $share -eq 1 ]; then
+/bin/mkdir /share/$1
+/bin/chown $1:spravca /share/$1
+/bin/chmod 2574 /share/$1
+echo "Vytvaram SHARE adresar\n"
+
+	if [ $spravca -eq 1 ]; then
+		/bin/chmod u+w /share/$1
+	fi
+fi
+
+if [ $spravca -eq 1 ]; then
+	/usr/sbin/usermod -a -G spravca $1
+echo "Pridavam usera do skupiny spravca\n"
+fi
+
+exit 1
+

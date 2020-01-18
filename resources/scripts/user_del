@@ -1,0 +1,29 @@
+#!/bin/bash
+if [ -z $1 ]; then
+	exit 2
+fi
+
+if [ -z $2 ]; then
+	share=0 #nemaz adresar v share
+else
+	share=$2 #zmaz adresar v share
+fi
+
+# Mazanie domovskeho adresara
+if [ -z $3 ]; then
+	adresar=0
+else
+	adresar=$3
+fi
+
+if [ $share -eq 1 ]; then
+	rm -R -f /share/$1
+fi
+
+/usr/bin/smbpasswd -x $1
+if [ $adresar = 1 ] ; then
+	/usr/sbin/userdel -r -f $1
+else
+	/usr/sbin/userdel -f $1
+fi
+/usr/sbin/groupdel $1

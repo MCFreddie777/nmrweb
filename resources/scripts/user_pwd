@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+	echo "Nutne zadat najprv login!"
+	exit 2
+fi
+if [ -z $2 ]; then
+	echo "Nutne zadat heslo!"
+	exit 2
+fi
+
+echo "Menim heslo pre localny ucet"
+	echo "$1:$2"|/usr/sbin/chpasswd
+
+echo "Menim samba heslo uzivatela $1"
+(echo $2; echo $2) | /usr/bin/smbpasswd -a -s $1
+exit 1
+
