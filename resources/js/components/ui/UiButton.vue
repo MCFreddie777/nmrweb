@@ -28,7 +28,16 @@
 
     div {
 
-        @apply rounded px-2 py-1;
+        &.rounded-full {
+            @apply rounded-full;
+        }
+
+        &.rounded {
+            @apply rounded;
+        }
+
+
+        @apply px-3 py-1;
 
 
         &:hover {

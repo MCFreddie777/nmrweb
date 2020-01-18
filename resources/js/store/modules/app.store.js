@@ -7,7 +7,7 @@ const state = {
                     items: [
                         {
                             path: '/samples',
-                            icon: 'fas fa-lock',
+                            icon: 'fas fa-vial',
                             title: 'Vzorky'
                         },
                         {

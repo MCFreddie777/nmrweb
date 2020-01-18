@@ -2,16 +2,17 @@
     <div class="h-screen bg-white flex">
         <Modal/>
         <Navigation/>
-        <div class="flex flex-col flex-1 h-screen overflow-y-hidden border border-b-2 border-gray-300">
+        <div class="flex flex-col flex-1 h-screen overflow-y-hidden">
             <div
-                class="flex h-16 shadow-lg justify-end pr-5"
+                class="flex h-16 shadow justify-end pr-5 border-b border-gray-400"
+                style="box-sizing: content-box;"
             >
                 <div class="flex items-center">
                     <UserCircle :name="user.name"/>
                     <span class="pl-3 text-gray-900">{{ user.name }}</span>
                 </div>
             </div>
-            <div class="flex flex-col flex-1 overflow-y-hidden bg-gray-300">
+            <div class="flex flex-col flex-1 overflow-y-hidden bg-gray-300 p-8">
                 <router-view></router-view>
             </div>
         </div>

@@ -1,21 +1,33 @@
 <template>
     <div>
-        <p class="text-gray-600" v-if="!users || !users.length">Ľutujeme, nenašli sa žiadni používatelia.</p>
         <table
-            v-if="users && users.length > 0"
-            class="w-full rounded bg-white shadow-sm"
+            class="w-full shadow-sm"
         >
-
             <thead>
             <tr>
                 <th
-                    v-for="key in Object.keys(users[0]).slice(1,5)"
-                    class="border-b border-gray-200 first:pl-4 py-1 font-normal text-gray-600"
+                    v-for="header in headers"
+                    class="first:pl-6 py-1 pb-4 font-normal uppercase text-xs text-gray-500"
                 >
-                    {{ key }}
+                    {{ header }}
                 </th>
             </tr>
             </thead>
+
+            <tbody
+                v-if="!users || !users.length"
+            >
+            <tr>
+                <td
+                    :colspan="headers.length"
+                >
+                    <p class="text-gray-600 px-6">
+                        Ľutujeme, nenašli sa žiadni užívatelia
+                    </p>
+                </td>
+            </tr>
+
+            </tbody>
 
             <tbody
                 v-for="user in users"
@@ -58,6 +70,12 @@
             }
         },
 
+        data: () => ({
+            headers: [
+                'login', 'local_dir', 'share_dir', 'spravca'
+            ]
+        }),
+
         methods: {
             openUserModal(user) {
                 this.$store.dispatch(
@@ -82,6 +100,18 @@
         tbody tr td:first-child {
             @apply text-left;
             @apply justify-start;
+        }
+
+        tr th,td{
+            @apply w-16;
+
+            &:first-child {
+                @apply w-32;
+            }
+        }
+
+        tbody {
+            @apply border-t border-gray-200;
         }
 
         tbody tr {

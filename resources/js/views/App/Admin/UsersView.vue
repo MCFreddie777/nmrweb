@@ -1,7 +1,19 @@
 <template>
-    <div class="m-8">
-        <div class="flex justify-start mb-3">
-            <SearchBar class="shadow-sm" @valueChange="filterResults"/>
+    <div class="bg-white rounded-lg">
+        <div class="p-4 pl-6 flex justify-between">
+            <h1 class="text-2xl">Užívatelia</h1>
+            <div class="flex justify-end">
+                <SearchBar
+                    class="shadow-sm border mr-3"
+                    @valueChange="filterResults"
+                    extendable
+                />
+                <ui-button
+                    icon="fas fa-plus"
+                    class="primary rounded-full"
+                    text="Nový užívateľ"
+                />
+            </div>
         </div>
         <UserList :users="filteredUsers"/>
     </div>
@@ -10,13 +22,15 @@
 <script>
     import SearchBar from "../../../components/SearchBar";
     import UserList from "../../../components/User/UserList";
+    import UiButton from "../../../components/ui/UiButton";
 
     export default {
         name: "UsersView",
 
         components: {
             UserList,
-            SearchBar
+            SearchBar,
+            UiButton
         },
 
         data: () => ({
@@ -26,7 +40,9 @@
 
         methods: {
             filterResults(result) {
-                this.filteredUsers = this.users.filter(u => !u.login.indexOf(result))
+                if (this.users) {
+                    this.filteredUsers = this.users.filter(u => !u.login.indexOf(result))
+                }
             }
         },
 
@@ -41,13 +57,15 @@
                 });
 
             this.$store.watch((state, getters) => getters['App/getUsers'], (users, s) => {
-                this.users = users;
-
-                if (!this.filteredUsers) {
-                    this.filteredUsers = users;
-                } else {
-                    const filteredKeys = new Set(this.filteredUsers.map(u => u.id));
-                    this.filteredUsers = this.users.filter(u => filteredKeys.has(u.id));
+                if (users) {
+                    console.log("Users: ", users);
+                    this.users = users;
+                    if (!this.filteredUsers) {
+                        this.filteredUsers = users;
+                    } else {
+                        const filteredKeys = new Set(this.filteredUsers.map(u => u.id));
+                        this.filteredUsers = this.users.filter(u => filteredKeys.has(u.id));
+                    }
                 }
             })
         },
