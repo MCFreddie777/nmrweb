@@ -6,6 +6,7 @@ import SamplesView from "./views/App/SamplesView";
 import ChangePasswordView from "./views/App/ChangePasswordView";
 import UsersView from "./views/App/Admin/UsersView";
 import FilesView from "./views/App/FilesView";
+import UserDetail from "./components/User/UserDetail";
 
 Vue.use(VueRouter);
 
@@ -32,10 +33,28 @@ export default new VueRouter({
                 },
                 {
                     path: 'users',
-                    component: UsersView,
-                    meta: {
-                        title: 'Správa užívateľov'
-                    }
+                    component: {
+                        render(h) {
+                            return h('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: '/',
+                            component: UsersView,
+                            meta: {
+                                title: 'Správa užívateľov'
+                            },
+                        },
+                        {
+                            path: ':id',
+                            component: UserDetail,
+                            meta: {
+                                // Todo: right name
+                                title: 'Používateľ'
+                            }
+                        },
+                    ]
                 },
                 {
                     path: 'change-password',
