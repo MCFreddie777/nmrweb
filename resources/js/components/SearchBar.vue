@@ -49,7 +49,7 @@
                 this.timeout = setTimeout(() => {
                     this.$emit('valueChange', event.target.value);
                     this.timeout = undefined;
-                }, 1000);
+                }, 250);
             },
 
             handleClick() {
