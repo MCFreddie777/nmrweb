@@ -1,5 +1,6 @@
 <template>
     <div class="h-screen bg-white flex">
+        <Alert/>
         <Modal/>
         <Navigation/>
         <div class="flex flex-col flex-1 h-screen overflow-y-hidden">
@@ -23,6 +24,7 @@
     import Navigation from "../components/Navigation/Navigation";
     import UserCircle from "../components/User/UserCircle";
     import Modal from "../components/Modal/Modal";
+    import Alert from "../components/Alert/Alert";
 
     export default {
         name: "BasicView",
@@ -39,6 +41,7 @@
             Navigation,
             UserCircle,
             Modal,
+            Alert
         },
     }
 </script>
