@@ -42,13 +42,6 @@
                 this.$emit('updateField', !this.checked);
             }
         },
-
-        watcher: () => ({
-            checked: () => {
-                console.log("watchers checked");
-            }
-        })
-
     }
 </script>
 
