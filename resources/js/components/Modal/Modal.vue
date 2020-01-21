@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import UserEditModal from "./UserEditModal";
+    import UserModal from "./UserModal";
 
     export default {
         name: "ui-modal",
@@ -26,7 +26,7 @@
         }),
 
         components: {
-            UserEditModal
+            UserModal
         },
 
         methods: {
