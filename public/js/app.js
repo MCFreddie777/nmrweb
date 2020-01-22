@@ -3019,6 +3019,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -23030,99 +23032,101 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "bg-white rounded border border-gray-400 p-8 shadow" },
-    [
-      _c("h1", { staticClass: "text-2xl mb-4" }, [
-        _vm._v("\n        Zmena hesla\n    ")
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex items-center pb-3" },
-        [
-          _c(
-            "label",
-            {
-              staticClass:
-                "uppercase font-bold text-gray-500 text-sm block w-1/12 mr-5",
-              attrs: { for: "password" }
-            },
-            [_vm._v("\n            Aktuálne Heslo\n        ")]
-          ),
-          _vm._v(" "),
-          _c("ui-input", {
-            attrs: {
-              type: "password",
-              name: "old_password",
-              required: true,
-              placeholder: "••••••••"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex items-center pb-3" },
-        [
-          _c(
-            "label",
-            {
-              staticClass:
-                "uppercase font-bold text-gray-500 text-sm block w-1/12 mr-5",
-              attrs: { for: "password" }
-            },
-            [_vm._v("\n            Nové Heslo\n        ")]
-          ),
-          _vm._v(" "),
-          _c("ui-input", {
-            attrs: {
-              type: "password",
-              name: "password",
-              required: true,
-              placeholder: "••••••••"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex items-center pb-3" },
-        [
-          _c(
-            "label",
-            {
-              staticClass:
-                "uppercase font-bold text-gray-500 text-sm block w-1/12 mr-5",
-              attrs: { for: "confirm_password" }
-            },
-            [_vm._v("\n            Potvrdiť heslo\n        ")]
-          ),
-          _vm._v(" "),
-          _c("ui-input", {
-            attrs: {
-              type: "password",
-              name: "confirm_password",
-              required: true,
-              placeholder: "••••••••"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("ui-button", {
-        staticClass: "primary mt-4 w-20",
-        attrs: { text: "Save" }
-      })
-    ],
-    1
-  )
+  return _c("div", { staticClass: "bg-white rounded-lg" }, [
+    _c(
+      "div",
+      { staticClass: "p-4 pl-6" },
+      [
+        _c("h1", { staticClass: "text-2xl mb-4" }, [
+          _vm._v("\n            Zmena hesla\n        ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex items-center pb-3" },
+          [
+            _c(
+              "label",
+              {
+                staticClass:
+                  "uppercase font-bold text-gray-500 text-sm block w-32 mr-5",
+                attrs: { for: "password" }
+              },
+              [_vm._v("\n                Aktuálne Heslo\n            ")]
+            ),
+            _vm._v(" "),
+            _c("ui-input", {
+              attrs: {
+                type: "password",
+                name: "old_password",
+                required: true,
+                placeholder: "••••••••"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex items-center pb-3 w-full" },
+          [
+            _c(
+              "label",
+              {
+                staticClass:
+                  "block uppercase font-bold text-gray-500 text-sm block w-32 mr-5",
+                attrs: { for: "password" }
+              },
+              [_vm._v("\n                Nové Heslo\n            ")]
+            ),
+            _vm._v(" "),
+            _c("ui-input", {
+              attrs: {
+                type: "password",
+                name: "password",
+                required: true,
+                placeholder: "••••••••"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex items-center pb-3" },
+          [
+            _c(
+              "label",
+              {
+                staticClass:
+                  "uppercase font-bold text-gray-500 text-sm block w-32 mr-5",
+                attrs: { for: "confirm_password" }
+              },
+              [_vm._v("\n                Potvrdiť heslo\n            ")]
+            ),
+            _vm._v(" "),
+            _c("ui-input", {
+              attrs: {
+                type: "password",
+                name: "confirm_password",
+                required: true,
+                placeholder: "••••••••"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("ui-button", {
+          staticClass: "primary rounded-full mt-5 w-20",
+          attrs: { text: "Uložiť" }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
