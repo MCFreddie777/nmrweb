@@ -33,6 +33,7 @@ class CreateSamplesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('solvent_id')->references('id')->on('solvents')->onDelete('cascade');
             $table->foreign('grant_id')->references('id')->on('grants')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
