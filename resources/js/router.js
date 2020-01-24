@@ -2,11 +2,13 @@ import Vue from 'vue';
 import VueRouter from "vue-router";
 import BaseView from "./views/BaseView";
 import LoginView from "./views/LoginView";
-import SamplesView from "./views/App/SamplesView";
+import SampleList from "./views/App/Sample/SampleList";
 import ChangePasswordView from "./views/App/ChangePasswordView";
-import UsersView from "./views/App/Admin/UsersView";
-import FilesView from "./views/App/FilesView";
-import UserDetail from "./components/User/UserDetail";
+import UserList from "./views/App/Admin/User/UserList";
+import FileList from "./views/App/File/FileList";
+import UserEdit from "./views/App/Admin/User/UserEdit";
+import UserCreate from "./views/App/Admin/User/UserCreate";
+import SampleCreate from "./views/App/Sample/SampleCreate";
 
 Vue.use(VueRouter);
 
@@ -19,14 +21,31 @@ export default new VueRouter({
             children: [
                 {
                     path: 'samples',
-                    component: SamplesView,
-                    meta: {
-                        title: 'Vzorky'
-                    }
+                    component: {
+                        render(h) {
+                            return h('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: '/',
+                            component: SampleList,
+                            meta: {
+                                title: 'Vzorky'
+                            }
+                        },
+                        {
+                            path: 'new',
+                            component: SampleCreate,
+                            meta: {
+                                title: 'Nová vzorka'
+                            },
+                        },
+                    ],
                 },
                 {
                     path: 'files',
-                    component: FilesView,
+                    component: FileList,
                     meta: {
                         title: 'Súbory'
                     }
@@ -41,14 +60,21 @@ export default new VueRouter({
                     children: [
                         {
                             path: '/',
-                            component: UsersView,
+                            component: UserList,
                             meta: {
                                 title: 'Správa užívateľov'
                             },
                         },
                         {
+                            path: 'new',
+                            component: UserCreate,
+                            meta: {
+                                title: 'Nový používateľ'
+                            },
+                        },
+                        {
                             path: ':id',
-                            component: UserDetail,
+                            component: UserEdit,
                             meta: {
                                 // Todo: right name
                                 title: 'Používateľ'
