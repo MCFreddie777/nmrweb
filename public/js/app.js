@@ -2918,7 +2918,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this2 = this;
 
     axios.get('/api/users').then(function (res) {
-      _this2.$store.dispatch('App/setUsers', res.data);
+      _this2.$store.dispatch('Users/setUsers', res.data);
 
       _this2.loading = false;
     })["catch"](function (e) {
@@ -2928,8 +2928,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     });
     this.$store.watch(function (state, getters) {
-      return getters['App/getUsers'];
-    }, function (users, s) {
+      return getters['Users/getusers'];
+    }, function (users) {
       if (users) {
         _this2.users = users;
 
@@ -3063,14 +3063,119 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_SearchBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/SearchBar */ "./resources/js/components/SearchBar.vue");
+/* harmony import */ var _components_ui_UiButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/ui/UiButton */ "./resources/js/components/ui/UiButton.vue");
+/* harmony import */ var _components_ui_UiTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/ui/UiTable */ "./resources/js/components/ui/UiTable.vue");
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "SamplesView"
+  name: "SamplesView",
+  components: {
+    SearchBar: _components_SearchBar__WEBPACK_IMPORTED_MODULE_0__["default"],
+    UiButton: _components_ui_UiButton__WEBPACK_IMPORTED_MODULE_1__["default"],
+    UiTable: _components_ui_UiTable__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      samples: undefined,
+      filteredSamples: undefined,
+      loading: true
+    };
+  },
+  computed: {
+    options: function options() {
+      return {
+        data: {
+          items: this.filteredSamples,
+          onClick: undefined,
+          loading: this.loading,
+          empty: 'Ľutujeme, nenašli sa žiadne vzorky'
+        },
+        header: {
+          items: ['login', 'role_id']
+        }
+      };
+    }
+  },
+  methods: {
+    filterResults: function filterResults(result) {
+      if (this.samples) {
+        this.filteredSamples = this.samples.filter(function (u) {
+          return !u.login.indexOf(result);
+        });
+      }
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/api/samples').then(function (res) {
+      console.log("Res: ", res);
+
+      _this.$store.dispatch('Samples/setSamples', res.data);
+
+      _this.loading = false;
+    })["catch"](function (e) {
+      _this.$store.dispatch('Alert/setAlert', {
+        type: 'error',
+        message: e.response.data.message || 'Ups! Niekde nastala chyba. Skúste obnoviť stránku.'
+      });
+    });
+    this.$store.watch(function (state, getters) {
+      return getters['Samples/getSamples'];
+    }, function (samples) {
+      if (samples) {
+        _this.samples = samples;
+
+        if (!_this.filteredSamples) {
+          _this.filteredSamples = samples;
+        } else {
+          var filteredKeys = new Set(_this.filteredSamples.map(function (u) {
+            return u.id;
+          }));
+          _this.filteredSamples = _this.samples.filter(function (u) {
+            return filteredKeys.has(u.id);
+          });
+        }
+      }
+    });
+  }
 });
 
 /***/ }),
@@ -3088,6 +3193,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_User_UserCircle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/User/UserCircle */ "./resources/js/components/User/UserCircle.vue");
 /* harmony import */ var _components_Modal_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Modal/Modal */ "./resources/js/components/Modal/Modal.vue");
 /* harmony import */ var _components_Alert_Alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Alert/Alert */ "./resources/js/components/Alert/Alert.vue");
+//
+//
+//
 //
 //
 //
@@ -23174,7 +23282,62 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    SamplesView.vue\n")])
+  return _c(
+    "div",
+    { staticClass: "bg-white rounded-lg" },
+    [
+      _c("div", { staticClass: "p-4 pl-6 flex justify-between" }, [
+        _c("h1", { staticClass: "text-2xl" }, [
+          _vm._v("\n            Vzorky\n        ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex justify-end" },
+          [
+            _c("SearchBar", {
+              staticClass: "shadow-sm border mr-3",
+              attrs: { extendable: "" },
+              on: { valueChange: _vm.filterResults }
+            }),
+            _vm._v(" "),
+            _c("ui-button", {
+              staticClass: "primary rounded-full",
+              attrs: { icon: "fas fa-plus", text: "Pridať vzorku" },
+              on: {
+                click: function($event) {
+                  return _vm.$router.push("/new")
+                }
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("ui-table", {
+        attrs: { options: _vm.options },
+        scopedSlots: _vm._u([
+          {
+            key: "tableItemTemplate",
+            fn: function(ref) {
+              var tableItem = ref.tableItem
+              return [
+                _c("td", [
+                  _c("div", { staticClass: "flex items-center pl-6" }, [
+                    _c("span", { staticClass: "ml-3" }, [
+                      _vm._v(_vm._s(tableItem.name))
+                    ])
+                  ])
+                ])
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -23216,13 +23379,17 @@ var render = function() {
             "div",
             {
               staticClass:
-                "flex h-16 shadow justify-end pr-5 border-b border-gray-400",
+                "flex h-16 shadow justify-end border-b border-gray-400",
               staticStyle: { "box-sizing": "content-box" }
             },
             [
               _c(
-                "div",
-                { staticClass: "flex items-center" },
+                "router-link",
+                {
+                  staticClass:
+                    "flex items-center px-5 hover:cursor-pointer hover:bg-gray-100",
+                  attrs: { to: "/change-password" }
+                },
                 [
                   _c("UserCircle", { attrs: { name: _vm.user.name } }),
                   _vm._v(" "),
@@ -23232,7 +23399,8 @@ var render = function() {
                 ],
                 1
               )
-            ]
+            ],
+            1
           ),
           _vm._v(" "),
           _c(
@@ -40835,7 +41003,9 @@ var map = {
 	"./alert.store.js": "./resources/js/store/modules/alert.store.js",
 	"./app.store.js": "./resources/js/store/modules/app.store.js",
 	"./auth.store.js": "./resources/js/store/modules/auth.store.js",
-	"./modal.store.js": "./resources/js/store/modules/modal.store.js"
+	"./modal.store.js": "./resources/js/store/modules/modal.store.js",
+	"./samples.store.js": "./resources/js/store/modules/samples.store.js",
+	"./users.store.js": "./resources/js/store/modules/users.store.js"
 };
 
 
@@ -40953,8 +41123,7 @@ var state = {
         title: 'Zmena hesla'
       }]
     }]
-  },
-  users: []
+  }
 };
 var getters = {
   isNavigationCollapsed: function isNavigationCollapsed(state) {
@@ -40962,33 +41131,16 @@ var getters = {
   },
   navigationItems: function navigationItems(state) {
     return state.navigation.items;
-  },
-  getUsers: function getUsers(state) {
-    return state.users;
   }
 };
 var actions = {
   toggleNavigation: function toggleNavigation(context) {
     context.commit('TOGGLE_NAVIGATION');
-  },
-  setUsers: function setUsers(context, users) {
-    context.commit('SET_USERS', users);
-  },
-  updateUser: function updateUser(context, user) {
-    context.commit('UPDATE_USER', user);
   }
 };
 var mutations = {
   TOGGLE_NAVIGATION: function TOGGLE_NAVIGATION(state) {
     state.navigation.collapsed = !state.navigation.collapsed;
-  },
-  SET_USERS: function SET_USERS(state, users) {
-    state.users = users;
-  },
-  UPDATE_USER: function UPDATE_USER(state, user) {
-    state.users = state.users.map(function (_user) {
-      return _user.id === user.id ? user : _user;
-    });
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -41125,6 +41277,96 @@ var mutations = {
       componentName: undefined,
       componentProps: undefined
     };
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/samples.store.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/samples.store.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  samples: []
+};
+var getters = {
+  getSamples: function getSamples(state) {
+    return state.samples;
+  }
+};
+var actions = {
+  setSamples: function setSamples(context, samples) {
+    context.commit('SET_SAMPLES', samples);
+  },
+  updateSample: function updateSample(context, sample) {
+    context.commit('UPDATE_SAMPLE', sample);
+  }
+};
+var mutations = {
+  SET_SAMPLES: function SET_SAMPLES(state, samples) {
+    state.samples = samples;
+  },
+  UPDATE_SAMPLE: function UPDATE_SAMPLE(state, sample) {
+    state.samples = state.samples.map(function (_sample) {
+      return _sample.id === sample.id ? sample : _sample;
+    });
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/users.store.js":
+/*!***************************************************!*\
+  !*** ./resources/js/store/modules/users.store.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  users: []
+};
+var getters = {
+  getUsers: function getUsers(state) {
+    return state.users;
+  }
+};
+var actions = {
+  setUsers: function setUsers(context, users) {
+    context.commit('SET_USERS', users);
+  },
+  updateUser: function updateUser(context, user) {
+    context.commit('UPDATE_USER', user);
+  }
+};
+var mutations = {
+  SET_USERS: function SET_USERS(state, users) {
+    state.users = users;
+  },
+  UPDATE_USER: function UPDATE_USER(state, user) {
+    state.users = state.users.map(function (_user) {
+      return _user.id === user.id ? user : _user;
+    });
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

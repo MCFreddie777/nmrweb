@@ -98,7 +98,7 @@
         mounted() {
             axios.get('/api/users')
                 .then(res => {
-                    this.$store.dispatch('App/setUsers', res.data);
+                    this.$store.dispatch('Users/setUsers', res.data);
                     this.loading = false;
                 })
                 .catch(e => {
@@ -111,7 +111,7 @@
                     );
                 });
 
-            this.$store.watch((state, getters) => getters['App/getUsers'], (users, s) => {
+            this.$store.watch((state, getters) => getters['Users/getusers'], users => {
                 if (users) {
                     this.users = users;
                     if (!this.filteredUsers) {
@@ -122,9 +122,7 @@
                     }
                 }
             })
-        }
-        ,
-
+        },
     }
 </script>
 
