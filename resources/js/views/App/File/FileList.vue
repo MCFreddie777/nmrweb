@@ -1,12 +1,12 @@
 <template>
     <div>
-        FilesView.vue
+        FileList.vue
     </div>
 </template>
 
 <script>
     export default {
-        name: "FilesView"
+        name: "FileList"
     }
 </script>
 

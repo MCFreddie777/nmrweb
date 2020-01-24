@@ -13,7 +13,7 @@
                     icon="fas fa-plus"
                     class="primary rounded-full"
                     text="Nový užívateľ"
-                    @click="$router.push('/new')"
+                    @click="$router.push({ path: 'new', append: true })"
                 />
             </div>
         </div>
@@ -30,7 +30,7 @@
                 </td>
 
                 <td>
-                    {{ tableItem.role_id }}
+                    {{ tableItem.role.name }}
                 </td>
             </template>
         </ui-table>
@@ -38,13 +38,13 @@
 </template>
 
 <script>
-    import SearchBar from "../../../components/SearchBar";
-    import UiButton from "../../../components/ui/UiButton";
-    import UiTable from "../../../components/ui/UiTable";
-    import UserCircle from "../../../components/User/UserCircle";
+    import SearchBar from "../../../../components/SearchBar";
+    import UiButton from "../../../../components/ui/UiButton";
+    import UiTable from "../../../../components/ui/UiTable";
+    import UserCircle from "../../../../components/User/UserCircle";
 
     export default {
-        name: "UsersView",
+        name: "UserList",
 
         components: {
             SearchBar,
@@ -71,7 +71,7 @@
                         empty: 'Ľutujeme, nenašli sa žiadni užívatelia'
                     },
                     header: {
-                        items: ['login', 'role_id']
+                        items: ['login', 'role']
                     }
                 }
             }
@@ -98,7 +98,7 @@
         mounted() {
             axios.get('/api/users')
                 .then(res => {
-                    this.$store.dispatch('Users/setUsers', res.data);
+                    this.$store.dispatch('Users/setUsers', res.data.users);
                     this.loading = false;
                 })
                 .catch(e => {
@@ -111,7 +111,7 @@
                     );
                 });
 
-            this.$store.watch((state, getters) => getters['Users/getusers'], users => {
+            this.$store.watch((state, getters) => getters['Users/getUsers'], users => {
                 if (users) {
                     this.users = users;
                     if (!this.filteredUsers) {

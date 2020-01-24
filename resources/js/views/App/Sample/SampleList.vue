@@ -14,7 +14,7 @@
                     icon="fas fa-plus"
                     class="primary rounded-full"
                     text="Pridať vzorku"
-                    @click="$router.push('/new')"
+                    @click="$router.push({path: 'new', append: true })"
                 />
             </div>
         </div>
@@ -34,12 +34,12 @@
 </template>
 
 <script>
-    import SearchBar from "../../components/SearchBar";
-    import UiButton from "../../components/ui/UiButton";
-    import UiTable from "../../components/ui/UiTable";
+    import SearchBar from "../../../components/SearchBar";
+    import UiButton from "../../../components/ui/UiButton";
+    import UiTable from "../../../components/ui/UiTable";
 
     export default {
-        name: "SamplesView",
+        name: "SampleList",
 
         components: {
             SearchBar,
@@ -82,7 +82,6 @@
         mounted() {
             axios.get('/api/samples')
                 .then(res => {
-                    console.log("Res: ",res);
                     this.$store.dispatch('Samples/setSamples', res.data);
                     this.loading = false;
                 })

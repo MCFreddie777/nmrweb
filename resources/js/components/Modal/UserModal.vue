@@ -7,12 +7,12 @@
 
         <div class="flex items-center pb-3">
             <label
-                class="uppercase font-bold text-gray-500 text-sm block w-1/4"
+                class="uppercase font-bold text-gray-500 text-sm block mr-2"
                 for="password"
             >
-                role_id:
+                role:
             </label>
-            <span class="text-gray-700"> {{ user.role_id}}</span>
+            <span class="text-gray-700"> {{ user.role.name }}</span>
         </div>
 
 
