@@ -15,7 +15,19 @@ use Illuminate\Http\Request;
 
 Route::post('/login', 'Auth\AuthController@login');
 
-Route::get('users', 'UsersController@index');
+Route::prefix('users')->group(function () {
+    Route::get('/', 'UsersController@index');
+    Route::post('/', 'UsersController@store');
+});
+
+
+Route::prefix('samples')->group(function () {
+    Route::get('/', 'SamplesController@index');
+});
+
+Route::any('.*', function () {
+    return abort(404);
+});
 
 Route::middleware('auth:api')->group(function () {
 });
