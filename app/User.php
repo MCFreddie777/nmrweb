@@ -10,11 +10,14 @@ class User extends Authenticatable
 {
     public $timestamps = false;
 
-    protected $protected = [
-        'login',
-    ];
+    protected $guarded = [];
 
     protected $hidden = [
         'password',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
+    }
 }
