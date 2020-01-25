@@ -3,7 +3,9 @@
         <Alert/>
         <Modal/>
         <Navigation/>
-        <div class="flex flex-col flex-1 h-screen overflow-y-hidden">
+        <div
+            class="flex flex-col flex-1 h-screen max-h-full overflow-y-auto"
+        >
             <div
                 class="flex h-16 shadow justify-end border-b border-gray-400"
                 style="box-sizing: content-box;"
@@ -16,7 +18,10 @@
                     <span class="pl-3 text-gray-900">{{ user.name }}</span>
                 </router-link>
             </div>
-            <div class="flex flex-col flex-1 overflow-y-hidden bg-gray-300 p-8">
+            <div
+                class="flex flex-col flex-1 bg-gray-300 p-8 overflow-y-auto"
+                style="max-height: calc(100vh - 65px);"
+            >
                 <router-view></router-view>
             </div>
         </div>
@@ -48,7 +53,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>
