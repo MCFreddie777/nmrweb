@@ -11,7 +11,7 @@ class SamplesController extends Controller
     public function index()
     {
         return response()->json([
-            'samples' => Sample::with('user')->get(),
+            'samples' => Sample::with(['user','solvent','grant'])->get(),
             'success' => true,
         ], Response::HTTP_OK);
     }

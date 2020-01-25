@@ -71,7 +71,7 @@
                 return {
                     data: {
                         items: this.filteredSamples,
-                        onClick: undefined,
+                        onClick: sample => this.openModal(sample),
                         loading: this.loading,
                         empty: 'Ľutujeme, nenašli sa žiadne vzorky'
                     },
@@ -99,9 +99,21 @@
         methods: {
             filterResults(result) {
                 if (this.samples) {
-                    this.filteredSamples = this.samples.filter(u => !u.name.indexOf(result))
+                    this.filteredSamples = this.samples.filter(
+                        u => !u.name.indexOf(result) || !u.user.login.indexOf(result)
+                    )
                 }
             },
+
+            openModal(sample) {
+                this.$store.dispatch(
+                    'Modal/setModal',
+                    {
+                        componentName: 'SampleModal',
+                        componentProps: {sample},
+                    }
+                );
+            }
         },
 
         mounted() {

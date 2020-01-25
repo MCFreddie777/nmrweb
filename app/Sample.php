@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sample extends Model
 {
+    public $hidden = ['solvent_id', 'grant_id', 'user_id'];
 
     public function user()
     {

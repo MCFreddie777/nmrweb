@@ -103,6 +103,7 @@
                     {
                         componentName: 'UserModal',
                         componentProps: {user},
+                        center: false,
                     }
                 );
             },
