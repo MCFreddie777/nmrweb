@@ -2,13 +2,12 @@
     <div class="p-1" v-if="user">
 
         <h1 class="text-2xl capitalized mb-4">
-            {{ capitalize(user.login) }}
+            {{ user.login }}
         </h1>
 
         <div class="flex items-center pb-3">
             <label
                 class="uppercase font-bold text-gray-500 text-sm block mr-2"
-                for="password"
             >
                 role:
             </label>
