@@ -20,9 +20,23 @@
                 }"
             >&nbsp;
             </div>
-            <p class="text-gray-800 p-3">
-                {{ alert.message }}
-            </p>
+            <div
+                class="text-gray-800 p-3 text-center"
+            >
+                <p
+                    v-if="alert.message"
+                >
+                    {{ alert.message }}
+                </p>
+                <p>
+                    Ups! Niekde nastala chyba. Skúste <!--
+                --><a
+                    href="#"
+                    @click="$router.go(0)"
+                    class="text-blue-500 underline"
+                >obnoviť stránku<!--
+                --></a>.</p>
+            </div>
         </div>
     </div>
 </template>
@@ -39,11 +53,15 @@
         mounted() {
             this.$store.watch((state, getters) => getters['Alert/alert'], (alert) => {
                 this.alert = alert;
+
+                if (this.alert && this.alert.type != 'error') {
+                    setTimeout(() => {
+                        this.$store.dispatch('Alert/dismiss');
+                    }, 7000)
+                }
             });
 
-            setTimeout(() => {
-                this.$store.dispatch('Alert/dismiss');
-            }, 7000)
+
         }
     }
 </script>
