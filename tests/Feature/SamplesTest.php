@@ -28,7 +28,7 @@ class SamplesTest extends TestCase
                 'name' => $sample->name,
                 'user_id' => $sample->user->id,
                 'solvent_id' => $sample->solvent->id,
-                'own_diluent' => $sample->own_diluent,
+                'own_solvent' => $sample->own_solvent,
                 'amount' => $sample->amount,
                 'structure' => $sample->structure,
                 'spectrometer' => $sample->spectrometer,

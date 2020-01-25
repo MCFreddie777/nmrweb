@@ -19,7 +19,7 @@ class CreateSamplesTable extends Migration
             $table->unsignedBigInteger('user_id');
 
             $table->unsignedBigInteger('solvent_id');
-            $table->boolean('own_diluent');
+            $table->boolean('own_solvent');
             $table->decimal('amount');
 
             $table->string('structure');

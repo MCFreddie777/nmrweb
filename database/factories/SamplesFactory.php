@@ -17,7 +17,7 @@ $factory->define(Sample::class, function (Faker $faker) {
         'solvent_id' => function () {
             return factory(Solvent::class)->create()->id;
         },
-        'own_diluent' => $faker->boolean,
+        'own_solvent' => $faker->boolean,
         'amount' => $faker->numberBetween(0,500),
         'structure' => $faker->realText(50),
         'spectrometer' => $faker->randomElement(['300', '600']),
