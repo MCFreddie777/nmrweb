@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Solvent::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->word,
     ];
 });

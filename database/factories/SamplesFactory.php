@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Sample::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->word,
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
@@ -18,7 +18,7 @@ $factory->define(Sample::class, function (Faker $faker) {
             return factory(Solvent::class)->create()->id;
         },
         'own_diluent' => $faker->boolean,
-        'amount' => $faker->randomNumber(),
+        'amount' => $faker->numberBetween(0,500),
         'structure' => $faker->realText(50),
         'spectrometer' => $faker->randomElement(['300', '600']),
         'return' => $faker->boolean,
