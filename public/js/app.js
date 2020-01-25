@@ -3497,6 +3497,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -23974,28 +23982,36 @@ var render = function() {
             "div",
             {
               staticClass:
-                "flex h-16 shadow justify-end border-b border-gray-400",
+                "flex h-16 justify-between shadow border-b border-gray-400 items-center ",
               staticStyle: { "box-sizing": "content-box" }
             },
             [
+              _c("p", { staticClass: "pl-8 text-xl" }),
+              _vm._v(" "),
               _c(
-                "router-link",
-                {
-                  staticClass:
-                    "flex items-center px-5 hover:cursor-pointer hover:bg-gray-100",
-                  attrs: { to: "/change-password" }
-                },
+                "div",
+                { staticClass: "flex justify-end h-full" },
                 [
-                  _c("UserCircle", { attrs: { name: _vm.user.name } }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "pl-3 text-gray-900" }, [
-                    _vm._v(_vm._s(_vm.user.name))
-                  ])
+                  _c(
+                    "router-link",
+                    {
+                      staticClass:
+                        "flex px-5 items-center hover:cursor-pointer hover:bg-gray-100",
+                      attrs: { to: "/change-password" }
+                    },
+                    [
+                      _c("UserCircle", { attrs: { name: _vm.user.name } }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "pl-3 text-gray-900" }, [
+                        _vm._v(_vm._s(_vm.user.name))
+                      ])
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
-            1
+            ]
           ),
           _vm._v(" "),
           _c(

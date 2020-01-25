@@ -7,16 +7,24 @@
             class="flex flex-col flex-1 h-screen max-h-full overflow-y-auto"
         >
             <div
-                class="flex h-16 shadow justify-end border-b border-gray-400"
+                class="flex h-16 justify-between shadow border-b border-gray-400 items-center "
                 style="box-sizing: content-box;"
             >
-                <router-link
-                    class="flex items-center px-5 hover:cursor-pointer hover:bg-gray-100"
-                    to="/change-password"
+                <p class="pl-8 text-xl">
+                    <!-- TODO: might add title (discuss) -->
+                    <!-- Centrálne laboratóriá-->
+                </p>
+                <div
+                    class="flex justify-end h-full"
                 >
-                    <UserCircle :name="user.name"/>
-                    <span class="pl-3 text-gray-900">{{ user.name }}</span>
-                </router-link>
+                    <router-link
+                        class="flex px-5 items-center hover:cursor-pointer hover:bg-gray-100"
+                        to="/change-password"
+                    >
+                        <UserCircle :name="user.name"/>
+                        <span class="pl-3 text-gray-900">{{ user.name }}</span>
+                    </router-link>
+                </div>
             </div>
             <div
                 class="flex flex-col flex-1 bg-gray-300 p-8 overflow-y-auto"
