@@ -9,6 +9,7 @@ import FileList from "./views/App/File/FileList";
 import UserEdit from "./views/App/Admin/User/UserEdit";
 import UserCreate from "./views/App/Admin/User/UserCreate";
 import SampleCreate from "./views/App/Sample/SampleCreate";
+import SampleEdit from "./views/App/Sample/SampleEdit";
 
 Vue.use(VueRouter);
 
@@ -40,6 +41,13 @@ export default new VueRouter({
                             meta: {
                                 title: 'Nová vzorka'
                             },
+                        },
+                        {
+                            path: ':id',
+                            component: SampleEdit,
+                            meta: {
+                                title: 'Vzorka'
+                            }
                         },
                     ],
                 },
