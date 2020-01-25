@@ -21,11 +21,16 @@ class UsersTest extends TestCase
         $response = $this->get('api/users');
 
 
-        $response->assertJsonCount(1)->assertJson([[
-            'id' => $user->id,
-            'login' => $user->login,
-            'role_id' => $user->role->id,
-        ]]);
+        $response->assertJsonCount(2)->assertJson([
+            'users' => [[
+                'id' => $user->id,
+                'login' => $user->login,
+                'role' => [
+                    'name' => $user->role->name,
+                ]
+            ]],
+            'success' => true
+        ]);
     }
 
     /** @test */
