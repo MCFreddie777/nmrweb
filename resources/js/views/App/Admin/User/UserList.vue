@@ -29,7 +29,7 @@
                     </div>
                 </td>
 
-                <td>
+                <td class="text-gray-600">
                     {{ tableItem.role.name }}
                 </td>
             </template>
@@ -71,7 +71,10 @@
                         empty: 'Ľutujeme, nenašli sa žiadni užívatelia'
                     },
                     header: {
-                        items: ['login', 'role']
+                        items: [
+                            {title: 'login',left: true},
+                            {title: 'role'}
+                        ]
                     }
                 }
             }

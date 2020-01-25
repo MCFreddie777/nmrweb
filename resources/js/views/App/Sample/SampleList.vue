@@ -23,10 +23,17 @@
             :options="options"
         >
             <template #tableItemTemplate="{tableItem}">
+                <td class="text-gray-600">
+                    <p>{{ tableItem.id }}</p>
+                </td>
+                <td class="text-left">
+                    <p>{{ tableItem.name }}</p>
+                </td>
                 <td>
-                    <div class="flex items-center pl-6">
-                        <span class="ml-3">{{ tableItem.name }}</span>
-                    </div>
+                    {{ tableItem.user.login }}
+                </td>
+                <td>
+                    {{ tableItem.created_at}}
                 </td>
             </template>
         </ui-table>
@@ -65,7 +72,12 @@
                         empty: 'Ľutujeme, nenašli sa žiadne vzorky'
                     },
                     header: {
-                        items: ['login', 'role_id']
+                        items: [
+                            {title: 'id', width: 16},
+                            {title: 'názov', width: 96, left: true},
+                            {title: 'používateľ'},
+                            {title: 'dátum'}
+                        ]
                     }
                 }
             }
@@ -74,7 +86,7 @@
         methods: {
             filterResults(result) {
                 if (this.samples) {
-                    this.filteredSamples = this.samples.filter(u => !u.login.indexOf(result))
+                    this.filteredSamples = this.samples.filter(u => !u.name.indexOf(result))
                 }
             },
         },
@@ -82,7 +94,7 @@
         mounted() {
             axios.get('/api/samples')
                 .then(res => {
-                    this.$store.dispatch('Samples/setSamples', res.data);
+                    this.$store.dispatch('Samples/setSamples', res.data.samples);
                     this.loading = false;
                 })
                 .catch(e => {
@@ -109,7 +121,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>
