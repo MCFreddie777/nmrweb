@@ -25,9 +25,9 @@ Route::prefix('samples')->group(function () {
     Route::get('/', 'SamplesController@index');
 });
 
-Route::any('.*', function () {
+Route::get('/{any}', function () {
     return abort(404);
-});
+})->where('any','.*');
 
 Route::middleware('auth:api')->group(function () {
 });

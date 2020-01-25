@@ -1961,6 +1961,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Alert",
   data: function data() {
@@ -1975,10 +1989,13 @@ __webpack_require__.r(__webpack_exports__);
       return getters['Alert/alert'];
     }, function (alert) {
       _this.alert = alert;
+
+      if (_this.alert && _this.alert.type != 'error') {
+        setTimeout(function () {
+          _this.$store.dispatch('Alert/dismiss');
+        }, 7000);
+      }
     });
-    setTimeout(function () {
-      _this.$store.dispatch('Alert/dismiss');
-    }, 7000);
   }
 });
 
@@ -2901,15 +2918,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    axios.get('/api/users').then(function (res) {
-      _this2.$store.dispatch('Users/setUsers', res.data.users);
-
+    this.$store.dispatch('Users/fetchUsers').then(function () {
       _this2.loading = false;
-    })["catch"](function (e) {
-      _this2.$store.dispatch('Alert/setAlert', {
-        type: 'error',
-        message: e.response.data.message || 'Ups! Niekde nastala chyba. Skúste obnoviť stránku.'
-      });
     });
     this.$store.watch(function (state, getters) {
       return getters['Users/getUsers'];
@@ -3170,15 +3180,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/api/samples').then(function (res) {
-      _this.$store.dispatch('Samples/setSamples', res.data.samples);
-
+    this.$store.dispatch('Samples/fetchSamples').then(function () {
       _this.loading = false;
-    })["catch"](function (e) {
-      _this.$store.dispatch('Alert/setAlert', {
-        type: 'error',
-        message: e.response.data.message || 'Ups! Niekde nastala chyba. Skúste obnoviť stránku.'
-      });
     });
     this.$store.watch(function (state, getters) {
       return getters['Samples/getSamples'];
@@ -21989,10 +21992,34 @@ var render = function() {
               [_vm._v(" \n        ")]
             ),
             _vm._v(" "),
-            _c("p", { staticClass: "text-gray-800 p-3" }, [
-              _vm._v(
-                "\n            " + _vm._s(_vm.alert.message) + "\n        "
-              )
+            _c("div", { staticClass: "text-gray-800 p-3 text-center" }, [
+              _vm.alert.message
+                ? _c("p", [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.alert.message) +
+                        "\n            "
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("\n                Ups! Niekde nastala chyba. Skúste "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "text-blue-500 underline",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        return _vm.$router.go(0)
+                      }
+                    }
+                  },
+                  [_vm._v("obnoviť stránku")]
+                ),
+                _vm._v(".")
+              ])
             ])
           ])
         ]
@@ -41251,8 +41278,22 @@ var getters = {
   }
 };
 var actions = {
-  setSamples: function setSamples(context, samples) {
-    context.commit('SET_SAMPLES', samples);
+  fetchSamples: function fetchSamples(_ref) {
+    var dispatch = _ref.dispatch,
+        commit = _ref.commit;
+    return new Promise(function (resolve) {
+      axios.get('/api/samples').then(function (res) {
+        commit('SET_SAMPLES', res.data.samples);
+        resolve();
+      })["catch"](function (e) {
+        dispatch('Alert/setAlert', {
+          type: 'error',
+          message: e.response.data.message
+        }, {
+          root: true
+        });
+      });
+    });
   },
   updateSample: function updateSample(context, sample) {
     context.commit('UPDATE_SAMPLE', sample);
@@ -41296,11 +41337,25 @@ var getters = {
   }
 };
 var actions = {
-  setUsers: function setUsers(context, users) {
-    context.commit('SET_USERS', users);
-  },
   updateUser: function updateUser(context, user) {
     context.commit('UPDATE_USER', user);
+  },
+  fetchUsers: function fetchUsers(_ref) {
+    var dispatch = _ref.dispatch,
+        commit = _ref.commit;
+    return new Promise(function (resolve) {
+      axios.get('/api/users').then(function (res) {
+        commit('SET_USERS', res.data.users);
+        resolve();
+      })["catch"](function (e) {
+        dispatch('Alert/setAlert', {
+          type: 'error',
+          message: e.response.data.message
+        }, {
+          root: true
+        });
+      });
+    });
   }
 };
 var mutations = {

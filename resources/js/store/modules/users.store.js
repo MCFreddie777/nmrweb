@@ -11,12 +11,28 @@ const getters = {
 };
 
 const actions = {
-    setUsers: (context, users) => {
-        context.commit('SET_USERS', users);
-    },
-
     updateUser: (context, user) => {
         context.commit('UPDATE_USER', user)
+    },
+
+    fetchUsers: ({dispatch,commit}) => {
+        return new Promise(resolve => {
+            axios.get('/api/users')
+                .then(res => {
+                    commit('SET_USERS', res.data.users);
+                    resolve();
+                })
+                .catch(e => {
+                    dispatch(
+                        'Alert/setAlert',
+                        {
+                            type: 'error',
+                            message: e.response.data.message
+                        },
+                        {root:true}
+                    );
+                });
+        });
     }
 };
 

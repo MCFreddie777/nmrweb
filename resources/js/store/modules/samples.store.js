@@ -11,8 +11,24 @@ const getters = {
 };
 
 const actions = {
-    setSamples: (context, samples) => {
-        context.commit('SET_SAMPLES', samples);
+    fetchSamples: ({dispatch,commit}) => {
+        return new Promise(resolve => {
+            axios.get('/api/samples')
+                .then(res => {
+                    commit('SET_SAMPLES', res.data.samples);
+                    resolve();
+                })
+                .catch(e => {
+                    dispatch(
+                        'Alert/setAlert',
+                        {
+                            type: 'error',
+                            message: e.response.data.message
+                        },
+                        {root: true}
+                    );
+                });
+        })
     },
 
     updateSample: (context, sample) => {

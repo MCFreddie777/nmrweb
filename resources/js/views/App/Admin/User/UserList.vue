@@ -77,8 +77,8 @@
                     },
                     header: {
                         items: [
-                             'login',
-                             'role'
+                            'login',
+                            'role'
                         ]
                     },
                     layout: {
@@ -109,20 +109,9 @@
         },
 
         mounted() {
-            axios.get('/api/users')
-                .then(res => {
-                    this.$store.dispatch('Users/setUsers', res.data.users);
-                    this.loading = false;
-                })
-                .catch(e => {
-                    this.$store.dispatch(
-                        'Alert/setAlert',
-                        {
-                            type: 'error',
-                            message: e.response.data.message || 'Ups! Niekde nastala chyba. Skúste obnoviť stránku.'
-                        }
-                    );
-                });
+            this.$store.dispatch('Users/fetchUsers').then(() => {
+                this.loading = false;
+            });
 
             this.$store.watch((state, getters) => getters['Users/getUsers'], users => {
                 if (users) {
