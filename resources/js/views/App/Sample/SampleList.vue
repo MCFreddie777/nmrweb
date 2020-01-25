@@ -23,18 +23,22 @@
             :options="options"
         >
             <template #tableItemTemplate="{tableItem}">
-                <td class="text-gray-600">
+
+                <td
+                    class="text-gray-600"
+                    :class="$methods.tableRowsClassObject(options,0)"
+                >
                     <p>{{ tableItem.id }}</p>
                 </td>
-                <td class="text-left">
-                    <p>{{ tableItem.name }}</p>
+                <td
+                    v-for="(property,index) in ['name','user.login','created_at']"
+                    :class="$methods.tableRowsClassObject(options,index+1)"
+                >
+                    {{
+                    $methods.getNested(tableItem,property)
+                    }}
                 </td>
-                <td>
-                    {{ tableItem.user.login }}
-                </td>
-                <td>
-                    {{ tableItem.created_at}}
-                </td>
+
             </template>
         </ui-table>
     </div>
@@ -73,11 +77,20 @@
                     },
                     header: {
                         items: [
-                            {title: 'id', width: 16},
-                            {title: 'názov', width: 96, left: true},
-                            {title: 'používateľ'},
-                            {title: 'dátum'}
+                            'id',
+                            'názov',
+                            'používateľ',
+                            'dátum'
                         ]
+                    },
+                    layout: {
+                        '0': {
+                            width: 16,
+                        },
+                        '1': {
+                            width: 96,
+                            left: true
+                        }
                     }
                 }
             }

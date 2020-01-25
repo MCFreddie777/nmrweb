@@ -37,8 +37,6 @@
 
 <script>
     import UiInput from "../ui/UiInput";
-    import helpers from '../../helpers';
-    import UiCheckbox from "../ui/UiCheckbox";
     import UiButton from "../ui/UiButton";
 
     export default {
@@ -54,10 +52,6 @@
         components: {
             UiInput,
             UiButton
-        },
-
-        methods: {
-            capitalize: helpers.capitalize,
         },
     }
 </script>

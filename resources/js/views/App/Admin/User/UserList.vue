@@ -22,14 +22,19 @@
             :options="options"
         >
             <template #tableItemTemplate="{tableItem}">
-                <td>
-                    <div class="flex items-center pl-6">
+                <td
+                    :class="$methods.tableRowsClassObject(options,0)"
+                >
+                    <div class="flex items-center">
                         <UserCircle :name="tableItem.login"/>
                         <span class="ml-3">{{ tableItem.login }}</span>
                     </div>
                 </td>
 
-                <td class="text-gray-600">
+                <td
+                    class="text-gray-600"
+                    :class="$methods.tableRowsClassObject(options,1)"
+                >
                     {{ tableItem.role.name }}
                 </td>
             </template>
@@ -72,9 +77,14 @@
                     },
                     header: {
                         items: [
-                            {title: 'login',left: true},
-                            {title: 'role'}
+                             'login',
+                             'role'
                         ]
+                    },
+                    layout: {
+                        '0': {
+                            left: true
+                        },
                     }
                 }
             }
