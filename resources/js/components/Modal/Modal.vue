@@ -1,7 +1,10 @@
 <template>
     <div v-if="modal && modal.active">
         <div class="overlay" @click="dismiss"></div>
-        <div class="h-screen w-screen absolute flex justify-center mt-40">
+        <div
+            class="h-screen w-screen absolute flex justify-center"
+            :class="modal.center ? 'items-center' : 'mt-40'"
+        >
             <div class="flex justify-center items-center absolute bg-white rounded-sm z-20 shadow">
                 <div class="w-112 p-4 relative">
                     <i class="fas fa-times hover:cursor-pointer absolute right-0 top-0 p-2 text-gray-600"
@@ -17,6 +20,7 @@
 
 <script>
     import UserModal from "./UserModal";
+    import SampleModal from "./SampleModal";
 
     export default {
         name: "ui-modal",
@@ -26,7 +30,8 @@
         }),
 
         components: {
-            UserModal
+            UserModal,
+            SampleModal
         },
 
         methods: {
