@@ -132,10 +132,6 @@
                 this.loading = false;
             });
 
-            function jsmeOnLoad() {
-                jsmeApplet = new JSApplet.JSME("jsme_container", "380px", "340px");
-            }
-
             this.$store.watch((state, getters) => getters['Samples/getSamples'], (samples) => {
                 if (samples) {
                     this.samples = samples;

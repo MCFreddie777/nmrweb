@@ -26,6 +26,11 @@ Object.keys(filters).forEach(f => {
     Vue.filter(f, filters[f]);
 });
 
+router.beforeEach((to, from, next) => {
+    store.dispatch('Alert/dismiss');
+    next();
+});
+
 const app = new Vue({
     el: '#app',
     components: {

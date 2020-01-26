@@ -28,7 +28,7 @@
                 >
                     {{ alert.message }}
                 </p>
-                <p>
+                <p v-else>
                     Ups! Niekde nastala chyba. Skúste <!--
                 --><a
                     href="#"

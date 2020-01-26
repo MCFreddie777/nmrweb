@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from "vue-router";
+import Vuex from "./store";
 import BaseView from "./views/BaseView";
 import LoginView from "./views/LoginView";
 import SampleList from "./views/App/Sample/SampleList";

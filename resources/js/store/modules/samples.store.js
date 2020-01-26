@@ -13,7 +13,7 @@ const getters = {
 const actions = {
     fetchSamples: ({dispatch,commit}) => {
         return new Promise(resolve => {
-            axios.get('/api/samples')
+            axios.get('api/samples')
                 .then(res => {
                     commit('SET_SAMPLES', res.data.samples);
                     resolve();
@@ -23,7 +23,7 @@ const actions = {
                         'Alert/setAlert',
                         {
                             type: 'error',
-                            message: e.response.data.message
+                            message: (e.response && e.response.data && e.response.data.message) ? e.response.data.message : undefined,
                         },
                         {root: true}
                     );

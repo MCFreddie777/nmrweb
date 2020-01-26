@@ -15,9 +15,9 @@ const actions = {
         context.commit('UPDATE_USER', user)
     },
 
-    fetchUsers: ({dispatch,commit}) => {
+    fetchUsers: ({dispatch, commit}) => {
         return new Promise(resolve => {
-            axios.get('/api/users')
+            axios.get('api/users')
                 .then(res => {
                     commit('SET_USERS', res.data.users);
                     resolve();
@@ -27,9 +27,9 @@ const actions = {
                         'Alert/setAlert',
                         {
                             type: 'error',
-                            message: e.response.data.message
+                            message: (e.response && e.response.data && e.response.data.message) ? e.response.data.message : undefined,
                         },
-                        {root:true}
+                        {root: true}
                     );
                 });
         });
