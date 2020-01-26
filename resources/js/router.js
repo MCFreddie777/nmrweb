@@ -10,6 +10,7 @@ import UserEdit from "./views/App/Admin/User/UserEdit";
 import UserCreate from "./views/App/Admin/User/UserCreate";
 import SampleCreate from "./views/App/Sample/SampleCreate";
 import SampleEdit from "./views/App/Sample/SampleEdit";
+import PageNotFoundView from "./views/PageNotFoundView";
 
 Vue.use(VueRouter);
 
@@ -77,6 +78,10 @@ export default new VueRouter({
         {
             path: '/login',
             component: LoginView,
+        },
+        {
+            path: "*",
+            component: PageNotFoundView
         }
     ],
     mode: 'history'
