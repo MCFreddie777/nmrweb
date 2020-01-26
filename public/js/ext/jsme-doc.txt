@@ -1,0 +1,1 @@
+Installation + options definition : https://peter-ertl.com/jsme/JSME_2017-02-26/doc.html
