@@ -6,6 +6,13 @@
     export default {
         name: "UserDetail",
 
+        head: {
+            title: {
+                //Todo: right name
+                inner: 'Používateľ'
+            }
+        },
+
         mounted() {
             this.$store.dispatch('Modal/dismiss')
         }

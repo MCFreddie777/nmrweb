@@ -6,7 +6,13 @@
 
 <script>
     export default {
-        name: "UserCreate"
+        name: "UserCreate",
+
+        head: {
+            title: {
+                inner: 'Nový užívateľ'
+            }
+        },
     }
 </script>
 

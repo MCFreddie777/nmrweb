@@ -66,6 +66,12 @@
             }
         },
 
+        head: {
+            title: {
+                inner: 'Správa užívateľov'
+            }
+        },
+
         computed: {
             options: function () {
                 return {

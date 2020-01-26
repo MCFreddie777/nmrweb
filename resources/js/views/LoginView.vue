@@ -78,6 +78,12 @@
             UiInput,
         },
 
+        head: {
+            title: {
+                inner: 'Prihlásenie'
+            }
+        },
+
         computed: {
             csrf: function () {
                 return this.$store.getters['Auth/csrf']

@@ -66,6 +66,12 @@
             }
         },
 
+        head: {
+            title: {
+                inner: 'Vzorky'
+            }
+        },
+
         computed: {
             options: function () {
                 return {

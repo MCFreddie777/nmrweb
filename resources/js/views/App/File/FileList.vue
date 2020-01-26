@@ -6,7 +6,13 @@
 
 <script>
     export default {
-        name: "FileList"
+        name: "FileList",
+
+        head: {
+            title: {
+                inner: 'Súbory'
+            }
+        },
     }
 </script>
 

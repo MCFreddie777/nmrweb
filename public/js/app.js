@@ -2015,23 +2015,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "App",
-  data: function data() {
-    return {
-      title: ''
-    };
-  },
-  watch: {
-    $route: function $route(to, from) {
-      this.title = to.meta.title;
-    },
-    title: function title() {
-      document.title = "".concat(this.title, " | NMR a HS");
-    }
-  },
-  created: function created() {
-    this.title = this.$route.meta.title;
-  }
+  name: "App"
 });
 
 /***/ }),
@@ -2984,7 +2968,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "UserCreate"
+  name: "UserCreate",
+  head: {
+    title: {
+      inner: 'Nový užívateľ'
+    }
+  }
 });
 
 /***/ }),
@@ -3004,6 +2993,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserDetail",
+  head: {
+    title: {
+      //Todo: right name
+      inner: 'Používateľ'
+    }
+  },
   mounted: function mounted() {
     this.$store.dispatch('Modal/dismiss');
   }
@@ -3086,6 +3081,11 @@ __webpack_require__.r(__webpack_exports__);
       filteredUsers: undefined,
       loading: true
     };
+  },
+  head: {
+    title: {
+      inner: 'Správa užívateľov'
+    }
   },
   computed: {
     options: function options() {
@@ -3233,6 +3233,11 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChangePasswordView",
+  head: {
+    title: {
+      inner: 'Zmena hesla'
+    }
+  },
   components: {
     UiInput: _components_ui_UiInput__WEBPACK_IMPORTED_MODULE_0__["default"],
     UiButton: _components_ui_UiButton__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -3257,7 +3262,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "FileList"
+  name: "FileList",
+  head: {
+    title: {
+      inner: 'Súbory'
+    }
+  }
 });
 
 /***/ }),
@@ -3278,7 +3288,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "SampleCreate"
+  name: "SampleCreate",
+  head: {
+    title: {
+      inner: 'Nová vzorka'
+    }
+  }
 });
 
 /***/ }),
@@ -3298,6 +3313,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SampleEdit",
+  meta: {
+    title: {
+      //Todo: right name
+      inner: "Vzorka"
+    }
+  },
   mounted: function mounted() {
     this.$store.dispatch('Modal/dismiss');
   }
@@ -3379,6 +3400,11 @@ __webpack_require__.r(__webpack_exports__);
       filteredSamples: undefined,
       loading: true
     };
+  },
+  head: {
+    title: {
+      inner: 'Vzorky'
+    }
   },
   computed: {
     options: function options() {
@@ -3613,6 +3639,11 @@ __webpack_require__.r(__webpack_exports__);
   name: "LoginView.vue",
   components: {
     UiInput: _components_ui_UiInput__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  head: {
+    title: {
+      inner: 'Prihlásenie'
+    }
   },
   computed: {
     csrf: function csrf() {
@@ -22250,6 +22281,279 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-head/vue-head.js":
+/*!*******************************************!*\
+  !*** ./node_modules/vue-head/vue-head.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* eslint-disable */
+;(function() {
+
+  'use strict'
+
+  var opt = {
+    complement: window.document.title,
+    separator: '|'
+  }
+
+  var diffTitle = {}
+  var els = []
+  var diffEls = []
+  var installed = false
+
+  var util = {
+    /**
+     * Shorthand
+     * @type {Object}
+     */
+    shorthand: {
+      ch: 'charset',
+      tg: 'target',
+      n: 'name',
+      he: 'http-equiv',
+      ip: 'itemprop',
+      c: 'content',
+      p: 'property',
+      sc: 'scheme',
+      r: 'rel',
+      h: 'href',
+      sz: 'sizes',
+      t: 'type',
+      s: 'src',
+      a: 'async',
+      d: 'defer',
+      i: 'inner'
+    },
+
+    /**
+     * This function return the element <head>
+     * @type {Function}
+     * @return {Object}
+     */
+    getPlace: function (place) {
+      return window.document.getElementsByTagName(place)[0]
+    },
+
+    /**
+     * Undo the window.document title for previous state
+     * @type {Function}
+     * @param  {Object} state
+     */
+    undoTitle: function (state) {
+      if (!state.before) return
+      window.document.title = state.before
+    },
+
+    /**
+     * Undo elements to its previous state
+     * @type {Function}
+     */
+    undo: function () {
+      if (!els.length) return
+      els.forEach(function (el) {
+        el.parentElement.removeChild(el)
+      })
+      els = []
+    },
+
+    /**
+     * Set attributes in element
+     * @type {Function}
+     * @param  {Object} obj
+     * @param  {HTMLElement} el
+     * @return {HTMLElement} with defined attributes
+     */
+    prepareElement: function (obj, el) {
+      var self = this
+      Object.keys(obj).forEach(function (prop) {
+        var sh = self.shorthand[prop] || prop
+        if (sh.match(/(body|undo|replace)/g)) return
+        if (sh === 'inner') {
+          el.textContent = obj[prop]
+          return
+        }
+        el.setAttribute(sh, obj[prop])
+      })
+      return el
+    },
+
+    /**
+     * Change window.document title
+     * @type {Function}
+     * @param  {Object} obj
+     */
+    title: function (obj) {
+      if (!obj) return
+      diffTitle.before = opt.complement
+      var title = obj.inner + ' ' + (obj.separator || opt.separator) +
+        ' ' +  (obj.complement || opt.complement)
+      window.document.title = title.trim()
+    },
+
+    /**
+     * Update Element
+     */
+    update: function () {
+      if (!els.length) return
+      els.forEach(function(el, key) {
+        if (diffEls[key] && !diffEls[key].isEqualNode(el)) {
+          el.parentElement.replaceChild(diffEls[key], els[key])
+          els.splice(key, 1, diffEls[key])
+          return
+        }
+      })
+      diffEls = []
+    },
+
+    /**
+     * Add Elements
+     * @param {Object} obj
+     * @param {HTMLElement} el
+     * @param {HTMLElement} parent
+     */
+    add: function (obj, el, parent) {
+      parent.appendChild(el)
+      // Fixed elements that do not suffer removal
+      if (obj.undo !== undefined && !obj.undo) return
+      // Elements which are removed
+      els.push(el)
+    },
+
+    /**
+     * Handle of create elements
+     * @type {Function}
+     * @param  {Array} arr
+     * @param  {String} tag   - style, link, meta, script, base
+     * @param  {String} place - Default 'head'
+     * @param  {Boolean} update
+     */
+    handle: function (arr, tag, place, update) {
+      var self = this
+      if (!arr) return
+      arr.forEach(function (obj) {
+        var parent = (obj.body) ? self.getPlace('body') : self.getPlace(place)
+        var el = window.document.getElementById(obj.id)
+        if (!el) {
+          el = window.document.createElement(tag)
+          update = false
+        }
+        // Elements that will substitute data
+        if (el.hasAttribute('id')) {
+          self.prepareElement(obj, el)
+          return
+        }
+        // Other elements
+        el = self.prepareElement(obj, el)
+        // Updated elements
+        if (update) {
+          diffEls.push(el)
+          return
+        }
+        // Append Elements
+        self.add(obj, el, parent)
+      })
+    }
+  }
+
+  /**
+   * Plugin | vue-head
+   * @param  {Function} Vue
+   * @param  {Object} options
+   */
+  function VueHead (Vue, options) {
+    if (installed) return
+
+    installed = true
+
+    if (options) {
+      Vue.util.extend(opt, options)
+    }
+
+    /**
+     * Initializes and updates the elements in the head
+     * @param  {Boolean} update
+     */
+    function init (update) {
+      var self = this
+      var head = (typeof self.$options.head === 'function') ? self.$options.head.bind(self)() : self.$options.head
+      if (!head) return
+      Object.keys(head).forEach(function (key) {
+        var prop = head[key]
+        if (!prop) return
+        var obj = (typeof prop === 'function') ? head[key].bind(self)() : head[key]
+        if (key === 'title') {
+          util[key](obj)
+          return
+        }
+        util.handle(obj, key, 'head', update)
+      })
+      self.$emit('okHead')
+    }
+
+    /**
+     * Remove the meta tags elements in the head
+     */
+    function destroy () {
+      if (!this.$options.head) return
+      util.undoTitle(diffTitle)
+      util.undo()
+    }
+
+    // v1
+    if (Vue.version.match(/[1].(.)+/g)) {
+      Vue.mixin({
+        ready: function () {
+          init.call(this)
+        },
+        destroyed: function () {
+          destroy.call(this)
+        },
+        events: {
+          updateHead: function () {
+            init.call(this, true)
+            util.update()
+          }
+        }
+      })
+    }
+    // v2
+    if (Vue.version.match(/[2].(.)+/g)) {
+      Vue.mixin({
+        created: function () {
+          var self = this
+          self.$on('updateHead', function () {
+            init.call(this, true)
+            util.update()
+          })
+        },
+        mounted: function () {
+          init.call(this)
+        },
+        beforeDestroy: function () {
+          destroy.call(this)
+        }
+      })
+    }
+  }
+
+  VueHead.version = '2.2.0'
+
+  // auto install
+  if (typeof Vue !== 'undefined') {
+    Vue.use(VueHead)
+  }
+
+  if(true) {
+    module.exports = VueHead
+  } else {}
+
+})()
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Alert/Alert.vue?vue&type=template&id=3880e12e&scoped=true&":
 /*!**************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Alert/Alert.vue?vue&type=template&id=3880e12e&scoped=true& ***!
@@ -40329,10 +40633,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var _methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./methods */ "./resources/js/methods.js");
-/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filters */ "./resources/js/filters.js");
-/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
+/* harmony import */ var vue_head__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-head */ "./node_modules/vue-head/vue-head.js");
+/* harmony import */ var vue_head__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_head__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./methods */ "./resources/js/methods.js");
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./filters */ "./resources/js/filters.js");
+/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
+
 
 
 
@@ -40341,18 +40648,25 @@ __webpack_require__.r(__webpack_exports__);
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$methods = _methods__WEBPACK_IMPORTED_MODULE_3__["default"];
-Object.keys(_filters__WEBPACK_IMPORTED_MODULE_4__["default"]).forEach(function (f) {
-  vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter(f, _filters__WEBPACK_IMPORTED_MODULE_4__["default"][f]);
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // vue-head
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_head__WEBPACK_IMPORTED_MODULE_2___default.a, {
+  separator: '|',
+  complement: 'NMR a HS'
+}); // Methods
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$methods = _methods__WEBPACK_IMPORTED_MODULE_4__["default"]; // Filters
+
+Object.keys(_filters__WEBPACK_IMPORTED_MODULE_5__["default"]).forEach(function (f) {
+  vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter(f, _filters__WEBPACK_IMPORTED_MODULE_5__["default"][f]);
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
-    App: _components_App__WEBPACK_IMPORTED_MODULE_5__["default"]
+    App: _components_App__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   router: _router__WEBPACK_IMPORTED_MODULE_1__["default"],
-  store: _store__WEBPACK_IMPORTED_MODULE_2__["default"]
+  store: _store__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 
 /***/ }),
@@ -41688,29 +42002,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       },
       children: [{
         path: '/',
-        component: _views_App_Sample_SampleList__WEBPACK_IMPORTED_MODULE_4__["default"],
-        meta: {
-          title: 'Vzorky'
-        }
+        component: _views_App_Sample_SampleList__WEBPACK_IMPORTED_MODULE_4__["default"]
       }, {
         path: 'new',
-        component: _views_App_Sample_SampleCreate__WEBPACK_IMPORTED_MODULE_10__["default"],
-        meta: {
-          title: 'Nová vzorka'
-        }
+        component: _views_App_Sample_SampleCreate__WEBPACK_IMPORTED_MODULE_10__["default"]
       }, {
         path: ':id',
-        component: _views_App_Sample_SampleEdit__WEBPACK_IMPORTED_MODULE_11__["default"],
-        meta: {
-          title: 'Vzorka'
-        }
+        component: _views_App_Sample_SampleEdit__WEBPACK_IMPORTED_MODULE_11__["default"]
       }]
     }, {
       path: 'files',
-      component: _views_App_File_FileList__WEBPACK_IMPORTED_MODULE_7__["default"],
-      meta: {
-        title: 'Súbory'
-      }
+      component: _views_App_File_FileList__WEBPACK_IMPORTED_MODULE_7__["default"]
     }, {
       path: 'users',
       component: {
@@ -41720,37 +42022,21 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       },
       children: [{
         path: '/',
-        component: _views_App_Admin_User_UserList__WEBPACK_IMPORTED_MODULE_6__["default"],
-        meta: {
-          title: 'Správa užívateľov'
-        }
+        component: _views_App_Admin_User_UserList__WEBPACK_IMPORTED_MODULE_6__["default"]
       }, {
         path: 'new',
-        component: _views_App_Admin_User_UserCreate__WEBPACK_IMPORTED_MODULE_9__["default"],
-        meta: {
-          title: 'Nový používateľ'
-        }
+        component: _views_App_Admin_User_UserCreate__WEBPACK_IMPORTED_MODULE_9__["default"]
       }, {
         path: ':id',
-        component: _views_App_Admin_User_UserEdit__WEBPACK_IMPORTED_MODULE_8__["default"],
-        meta: {
-          // Todo: right name
-          title: 'Používateľ'
-        }
+        component: _views_App_Admin_User_UserEdit__WEBPACK_IMPORTED_MODULE_8__["default"]
       }]
     }, {
       path: 'change-password',
-      component: _views_App_ChangePasswordView__WEBPACK_IMPORTED_MODULE_5__["default"],
-      meta: {
-        title: 'Zmena hesla'
-      }
+      component: _views_App_ChangePasswordView__WEBPACK_IMPORTED_MODULE_5__["default"]
     }]
   }, {
     path: '/login',
-    component: _views_LoginView__WEBPACK_IMPORTED_MODULE_3__["default"],
-    meta: {
-      title: 'Prihlásenie'
-    }
+    component: _views_LoginView__WEBPACK_IMPORTED_MODULE_3__["default"]
   }],
   mode: 'history'
 }));

@@ -31,32 +31,20 @@ export default new VueRouter({
                         {
                             path: '/',
                             component: SampleList,
-                            meta: {
-                                title: 'Vzorky'
-                            }
                         },
                         {
                             path: 'new',
                             component: SampleCreate,
-                            meta: {
-                                title: 'Nová vzorka'
-                            },
                         },
                         {
                             path: ':id',
                             component: SampleEdit,
-                            meta: {
-                                title: 'Vzorka'
-                            }
                         },
                     ],
                 },
                 {
                     path: 'files',
                     component: FileList,
-                    meta: {
-                        title: 'Súbory'
-                    }
                 },
                 {
                     path: 'users',
@@ -69,42 +57,26 @@ export default new VueRouter({
                         {
                             path: '/',
                             component: UserList,
-                            meta: {
-                                title: 'Správa užívateľov'
-                            },
                         },
                         {
                             path: 'new',
                             component: UserCreate,
-                            meta: {
-                                title: 'Nový používateľ'
-                            },
                         },
                         {
                             path: ':id',
                             component: UserEdit,
-                            meta: {
-                                // Todo: right name
-                                title: 'Používateľ'
-                            }
                         },
                     ]
                 },
                 {
                     path: 'change-password',
                     component: ChangePasswordView,
-                    meta: {
-                        title: 'Zmena hesla'
-                    }
                 },
             ]
         },
         {
             path: '/login',
             component: LoginView,
-            meta: {
-                title: 'Prihlásenie'
-            }
         }
     ],
     mode: 'history'

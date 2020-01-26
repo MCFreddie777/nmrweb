@@ -65,6 +65,12 @@
     export default {
         name: "ChangePasswordView",
 
+        head: {
+            title: {
+                inner: 'Zmena hesla',
+            }
+        },
+
         components: {
             UiInput,
             UiButton

@@ -6,7 +6,13 @@
 
 <script>
     export default {
-        name: "SampleCreate"
+        name: "SampleCreate",
+
+        head: {
+            title: {
+                inner: 'Nová vzorka'
+            }
+        },
     }
 </script>
 
