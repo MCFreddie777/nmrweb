@@ -5,6 +5,7 @@ const state = {
         componentName: undefined,
         componentProps: undefined,
         center: true,
+        width: 112,
     }
 };
 
@@ -32,6 +33,7 @@ const mutations = {
             closable: options.closable,
             componentName: options.componentName,
             componentProps: options.componentProps,
+            width: options.width || 112
         };
     },
 
@@ -42,6 +44,7 @@ const mutations = {
             closable: undefined,
             componentName: undefined,
             componentProps: undefined,
+            width: 112,
         };
     }
 };
