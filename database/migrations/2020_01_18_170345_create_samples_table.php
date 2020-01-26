@@ -20,15 +20,15 @@ class CreateSamplesTable extends Migration
 
             $table->unsignedBigInteger('solvent_id');
             $table->boolean('own_solvent');
-            $table->decimal('amount');
+            $table->decimal('amount')->nullable();
 
-            $table->string('structure');
+            $table->text('structure');
             $table->integer('spectrometer');
 
             $table->boolean('return');
-            $table->unsignedBigInteger('grant_id');
+            $table->unsignedBigInteger('grant_id')->nullable();
 
-            $table->string('note');
+            $table->text('note');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('solvent_id')->references('id')->on('solvents')->onDelete('cascade');
