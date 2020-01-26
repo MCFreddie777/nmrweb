@@ -69,7 +69,10 @@
         head: {
             title: {
                 inner: 'Vzorky'
-            }
+            },
+            script: [
+                {type: 'text/javascript', src: "js/ext/jsme.nocache.js", async: false},
+            ],
         },
 
         computed: {
@@ -95,6 +98,7 @@
                         },
                         '1': {
                             width: 96,
+                            'width-sm': 64,
                             left: true
                         }
                     }
@@ -117,6 +121,7 @@
                     {
                         componentName: 'SampleModal',
                         componentProps: {sample},
+                        width:144,
                     }
                 );
             }
@@ -126,6 +131,10 @@
             this.$store.dispatch('Samples/fetchSamples').then(() => {
                 this.loading = false;
             });
+
+            function jsmeOnLoad() {
+                jsmeApplet = new JSApplet.JSME("jsme_container", "380px", "340px");
+            }
 
             this.$store.watch((state, getters) => getters['Samples/getSamples'], (samples) => {
                 if (samples) {

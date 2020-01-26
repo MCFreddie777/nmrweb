@@ -2051,6 +2051,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2076,6 +2082,15 @@ __webpack_require__.r(__webpack_exports__);
       return getters['Modal/modal'];
     }, function (modal) {
       _this.modal = modal;
+    });
+  },
+  created: function created() {
+    var _this2 = this;
+
+    document.addEventListener('keyup', function (e) {
+      if (e.key === 'Escape') {
+        _this2.dismiss();
+      } else return;
     });
   }
 });
@@ -2173,6 +2188,11 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SampleModal",
+  data: function data() {
+    return {
+      jsmeApplet: undefined
+    };
+  },
   props: {
     sample: {
       type: Object,
@@ -2183,6 +2203,12 @@ __webpack_require__.r(__webpack_exports__);
     UiButton: _ui_UiButton__WEBPACK_IMPORTED_MODULE_0__["default"],
     UiLabel: _ui_UiLabel__WEBPACK_IMPORTED_MODULE_1__["default"],
     UiCheckbox: _ui_UiCheckbox__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  mounted: function mounted() {
+    this.jsmeApplet = new JSApplet.JSME("jsme", {
+      options: "newlook,depict"
+    });
+    this.jsmeApplet.readMolFile(this.sample.structure);
   }
 });
 
@@ -3422,7 +3448,12 @@ __webpack_require__.r(__webpack_exports__);
   head: {
     title: {
       inner: 'Vzorky'
-    }
+    },
+    script: [{
+      type: 'text/javascript',
+      src: "js/ext/jsme.nocache.js",
+      async: false
+    }]
   },
   computed: {
     options: function options() {
@@ -3446,6 +3477,7 @@ __webpack_require__.r(__webpack_exports__);
           },
           '1': {
             width: 96,
+            'width-sm': 64,
             left: true
           }
         }
@@ -3465,7 +3497,8 @@ __webpack_require__.r(__webpack_exports__);
         componentName: 'SampleModal',
         componentProps: {
           sample: sample
-        }
+        },
+        width: 144
       });
     }
   },
@@ -3475,6 +3508,11 @@ __webpack_require__.r(__webpack_exports__);
     this.$store.dispatch('Samples/fetchSamples').then(function () {
       _this2.loading = false;
     });
+
+    function jsmeOnLoad() {
+      jsmeApplet = new JSApplet.JSME("jsme_container", "380px", "340px");
+    }
+
     this.$store.watch(function (state, getters) {
       return getters['Samples/getSamples'];
     }, function (samples) {
@@ -22757,7 +22795,28 @@ var render = function() {
       )
     : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex flex-col pb-3 w-full h-48" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "uppercase font-bold text-gray-500 text-sm block mb-2 w-1/3"
+        },
+        [_vm._v("\n            Štruktúra:\n        ")]
+      ),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "flex w-full h-full justify-center mx-auto",
+        attrs: { id: "jsme" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -22823,7 +22882,10 @@ var render = function() {
               [
                 _c(
                   "div",
-                  { staticClass: "w-112 p-4 relative" },
+                  {
+                    staticClass: "p-4 relative",
+                    class: "w-" + _vm.modal.width
+                  },
                   [
                     _vm.modal.closable
                       ? _c("i", {
@@ -22909,17 +22971,12 @@ var render = function() {
             attrs: {
               item: {
                 key: "množstvo",
-                value: _vm.sample.amount | "neviem"
+                value: _vm.sample.amount || "neviem"
               }
             }
           }),
           _vm._v(" "),
-          _c("ui-label", {
-            attrs: {
-              item: { key: "štruktúra", value: _vm.sample.structure },
-              center: false
-            }
-          }),
+          _vm._m(0),
           _vm._v(" "),
           _c("ui-label", {
             attrs: {
@@ -22947,7 +23004,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "flex justify-end mt-5" },
+            { staticClass: "flex justify-end mt-3" },
             [
               _c("ui-button", {
                 staticClass: "secondary rounded-full",
@@ -22978,7 +23035,28 @@ var render = function() {
       )
     : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex flex-col pb-3 w-full h-48" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "uppercase font-bold text-gray-500 text-sm block mb-2 w-1/3"
+        },
+        [_vm._v("\n            Štruktúra:\n        ")]
+      ),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "flex w-full h-full justify-center mx-auto",
+        attrs: { id: "jsme" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -42215,7 +42293,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   tableRowsClassObject: function tableRowsClassObject(options, index) {
-    return [options.layout[index] && options.layout[index].width ? "w-".concat(options.layout[index].width) : '', {
+    return [options.layout[index] && options.layout[index].width ? "w-".concat(options.layout[index].width) : '', options.layout[index] && options.layout[index]['width-sm'] ? "sm:w-".concat(options.layout[index]['width-sm']) : '', {
       'first:pl-6 text-left justify-start': options.layout[index] && options.layout[index].left
     }];
   }
@@ -42245,6 +42323,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_App_Admin_User_UserCreate__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/App/Admin/User/UserCreate */ "./resources/js/views/App/Admin/User/UserCreate.vue");
 /* harmony import */ var _views_App_Sample_SampleCreate__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/App/Sample/SampleCreate */ "./resources/js/views/App/Sample/SampleCreate.vue");
 /* harmony import */ var _views_App_Sample_SampleEdit__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/App/Sample/SampleEdit */ "./resources/js/views/App/Sample/SampleEdit.vue");
+/* harmony import */ var _views_PageNotFoundView__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/PageNotFoundView */ "./resources/js/views/PageNotFoundView.vue");
+
 
 
 
@@ -42307,6 +42387,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/login',
     component: _views_LoginView__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }, {
+    path: "*",
+    component: _views_PageNotFoundView__WEBPACK_IMPORTED_MODULE_12__["default"]
   }],
   mode: 'history'
 }));
@@ -42592,7 +42675,8 @@ var state = {
     closable: undefined,
     componentName: undefined,
     componentProps: undefined,
-    center: true
+    center: true,
+    width: 112
   }
 };
 var getters = {
@@ -42610,13 +42694,16 @@ var actions = {
 };
 var mutations = {
   SET: function SET(state, options) {
+    console.log("Options.width: ", options.width);
     state.modal = {
       active: true,
       center: options.center !== undefined ? options.center : 'fuck',
       closable: options.closable,
       componentName: options.componentName,
-      componentProps: options.componentProps
+      componentProps: options.componentProps,
+      width: options.width || 112
     };
+    console.log("State.modal.width: ", state.modal.width);
   },
   REMOVE: function REMOVE(state) {
     state.modal = {
@@ -42624,7 +42711,8 @@ var mutations = {
       center: true,
       closable: undefined,
       componentName: undefined,
-      componentProps: undefined
+      componentProps: undefined,
+      width: 112
     };
   }
 };

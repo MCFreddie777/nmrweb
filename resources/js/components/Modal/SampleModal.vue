@@ -6,7 +6,9 @@
         </h1>
 
         <ui-label :item="{key:'id',value:sample.id}"/>
+
         <ui-label :item="{key:'používateľ',value:sample.user.login}"/>
+
         <ui-label
             :item="{
                 key:'rozpúštadlo',
@@ -18,12 +20,19 @@
         <ui-label
             :item="{
                 key:'množstvo',
-                value:sample.amount | 'neviem'
+                value:sample.amount || 'neviem'
             }"
         />
 
-        <!--  TODO: plugin smiles -->
-        <ui-label :item="{key:'štruktúra',value:sample.structure}" :center="false"/>
+        <!--  structure -->
+        <div class="flex flex-col pb-3 w-full h-48">
+            <label
+                class="uppercase font-bold text-gray-500 text-sm block mb-2 w-1/3"
+            >
+                Štruktúra:
+            </label>
+            <div id="jsme" class="flex w-full h-full justify-center mx-auto"></div>
+        </div>
 
         <ui-label :item="{key:'spektrometer',value:sample.spectrometer}"/>
         <ui-label :item="{key:'grant',value:sample.grant.name}"/>
@@ -36,7 +45,7 @@
         <ui-label :item="{key:'poznámka',value:sample.note}" :center="false"/>
 
 
-        <div class="flex justify-end mt-5">
+        <div class="flex justify-end mt-3">
             <ui-button
                 class="secondary rounded-full"
                 @click="$store.dispatch('Modal/dismiss')"
@@ -62,6 +71,12 @@
     export default {
         name: "SampleModal",
 
+        data: function () {
+            return {
+                jsmeApplet: undefined,
+            }
+        },
+
         props: {
             sample: {
                 type: Object,
@@ -74,6 +89,13 @@
             UiLabel,
             UiCheckbox,
         },
+
+        mounted() {
+            this.jsmeApplet = new JSApplet.JSME("jsme", {
+                options: "newlook,depict"
+            });
+            this.jsmeApplet.readMolFile(this.sample.structure);
+        }
     }
 </script>
 
