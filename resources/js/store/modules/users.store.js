@@ -25,15 +25,14 @@ const actions = {
                 context.state.users.filter(u => filteredKeys.has(u.id)),
                 key,
                 order));
-        return context.state.filtered;
     },
 
-    filter: (context,filter) => {
+    filter: (context, filter) => {
         context.commit(
             'SET_FILTERED_USERS',
-            context.state.users.filter(u => !u.login.indexOf(filter))
+            context.state.users.filter(u => !u.login.includes(filter))
         );
-        context.dispatch('sort',context.rootGetters['Table/getSort']);
+        context.dispatch('sort', context.rootGetters['Table/getSort']);
     },
 
     updateUser: (context, user) => {
@@ -44,6 +43,7 @@ const actions = {
         return new Promise(resolve => {
             axios.get('api/users')
                 .then(res => {
+                    commit('Table/SET_SORT', {key: 'id', order: 'DESC'}, {root: true});
                     commit('SET_USERS', res.data.users);
                     resolve();
                 })

@@ -3460,7 +3460,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       samples: undefined,
-      filteredSamples: undefined,
       loading: true
     };
   },
@@ -3480,9 +3479,15 @@ __webpack_require__.r(__webpack_exports__);
 
       return {
         data: {
-          items: this.filteredSamples,
+          items: this.samples,
           onClick: function onClick(sample) {
             return _this.openModal(sample);
+          },
+          sort: function sort(key, order) {
+            return _this.$store.dispatch('Samples/sort', {
+              key: key,
+              order: order
+            });
           },
           loading: this.loading,
           empty: 'Ľutujeme, nenašli sa žiadne vzorky'
@@ -3515,10 +3520,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    filterResults: function filterResults(result) {
+    filterResults: function filterResults(filter) {
+      var _this2 = this;
+
       if (this.samples) {
-        this.filteredSamples = this.samples.filter(function (u) {
-          return !u.name.indexOf(result) || !u.user.login.indexOf(result);
+        this.$store.dispatch('Samples/filter', filter).then(function () {
+          _this2.samples = _this2.$store.getters['Samples/getSamples'];
         });
       }
     },
@@ -3533,27 +3540,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.$store.dispatch('Samples/fetchSamples').then(function () {
-      _this2.loading = false;
+      _this3.loading = false;
     });
     this.$store.watch(function (state, getters) {
       return getters['Samples/getSamples'];
     }, function (samples) {
       if (samples) {
-        _this2.samples = samples;
-
-        if (!_this2.filteredSamples) {
-          _this2.filteredSamples = samples;
-        } else {
-          var filteredKeys = new Set(_this2.filteredSamples.map(function (u) {
-            return u.id;
-          }));
-          _this2.filteredSamples = _this2.samples.filter(function (u) {
-            return filteredKeys.has(u.id);
-          });
-        }
+        _this3.samples = samples;
+        _this3.loading = false;
       }
     });
   }
@@ -42653,20 +42650,53 @@ var mutations = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _methods__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../methods */ "./resources/js/methods.js");
+
 var state = {
-  samples: []
+  samples: [],
+  filtered: []
 };
 var getters = {
   getSamples: function getSamples(state) {
-    return state.samples;
+    return state.filtered;
   }
 };
 var actions = {
-  fetchSamples: function fetchSamples(_ref) {
-    var dispatch = _ref.dispatch,
-        commit = _ref.commit;
+  sort: function sort(context, _ref) {
+    var key = _ref.key,
+        order = _ref.order;
+    // set sort options
+    context.commit('Table/SET_SORT', {
+      key: key,
+      order: order
+    }, {
+      root: true
+    }); // merge samples and filtered samples
+
+    var filteredKeys = new Set(context.state.filtered.map(function (u) {
+      return u.id;
+    }));
+    context.commit('SET_FILTERED_SAMPLES', _methods__WEBPACK_IMPORTED_MODULE_0__["default"].sort(context.state.samples.filter(function (u) {
+      return filteredKeys.has(u.id);
+    }), key, order));
+  },
+  filter: function filter(context, _filter) {
+    context.commit('SET_FILTERED_SAMPLES', context.state.samples.filter(function (s) {
+      return s.name.includes(_filter) || s.user.login.includes(_filter) || s.id.toString().includes(_filter);
+    }));
+    context.dispatch('sort', context.rootGetters['Table/getSort']);
+  },
+  fetchSamples: function fetchSamples(_ref2) {
+    var dispatch = _ref2.dispatch,
+        commit = _ref2.commit;
     return new Promise(function (resolve) {
       axios.get('api/samples').then(function (res) {
+        commit('Table/SET_SORT', {
+          key: 'id',
+          order: 'DESC'
+        }, {
+          root: true
+        });
         commit('SET_SAMPLES', res.data.samples);
         resolve();
       })["catch"](function (e) {
@@ -42684,8 +42714,12 @@ var actions = {
   }
 };
 var mutations = {
+  SET_FILTERED_SAMPLES: function SET_FILTERED_SAMPLES(state, samples) {
+    state.filtered = samples;
+  },
   SET_SAMPLES: function SET_SAMPLES(state, samples) {
     state.samples = samples;
+    state.filtered = state.samples;
   },
   UPDATE_SAMPLE: function UPDATE_SAMPLE(state, sample) {
     state.samples = state.samples.map(function (_sample) {
@@ -42782,11 +42816,10 @@ var actions = {
     context.commit('SET_FILTERED_USERS', _methods__WEBPACK_IMPORTED_MODULE_0__["default"].sort(context.state.users.filter(function (u) {
       return filteredKeys.has(u.id);
     }), key, order));
-    return context.state.filtered;
   },
   filter: function filter(context, _filter) {
     context.commit('SET_FILTERED_USERS', context.state.users.filter(function (u) {
-      return !u.login.indexOf(_filter);
+      return !u.login.includes(_filter);
     }));
     context.dispatch('sort', context.rootGetters['Table/getSort']);
   },
@@ -42798,6 +42831,12 @@ var actions = {
         commit = _ref2.commit;
     return new Promise(function (resolve) {
       axios.get('api/users').then(function (res) {
+        commit('Table/SET_SORT', {
+          key: 'id',
+          order: 'DESC'
+        }, {
+          root: true
+        });
         commit('SET_USERS', res.data.users);
         resolve();
       })["catch"](function (e) {

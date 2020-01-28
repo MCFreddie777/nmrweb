@@ -61,7 +61,6 @@
         data: function () {
             return {
                 samples: undefined,
-                filteredSamples: undefined,
                 loading: true,
             }
         },
@@ -79,18 +78,29 @@
             options: function () {
                 return {
                     data: {
-                        items: this.filteredSamples,
+                        items: this.samples,
                         onClick: sample => this.openModal(sample),
+                        sort: (key, order) => this.$store.dispatch('Samples/sort', {key, order}),
                         loading: this.loading,
                         empty: 'Ľutujeme, nenašli sa žiadne vzorky'
                     },
                     header: {
                         items: [
-                            'id',
-                            'názov',
-                            'používateľ',
-                            'dátum'
-                        ]
+                            {
+                                name: 'id',
+                            },
+                            {
+                                name: 'názov',
+                                key: 'name',
+                            },
+                            {
+                                name: 'používateľ',
+                                key: 'user.login',
+                            }, {
+                                name: 'dátum',
+                                key: 'created_at',
+                            },
+                        ],
                     },
                     layout: {
                         '0': {
@@ -107,11 +117,11 @@
         },
 
         methods: {
-            filterResults(result) {
+            filterResults(filter) {
                 if (this.samples) {
-                    this.filteredSamples = this.samples.filter(
-                        u => !u.name.indexOf(result) || !u.user.login.indexOf(result)
-                    )
+                    this.$store.dispatch('Samples/filter', filter).then(() => {
+                        this.samples = this.$store.getters['Samples/getSamples'];
+                    });
                 }
             },
 
@@ -121,7 +131,7 @@
                     {
                         componentName: 'SampleModal',
                         componentProps: {sample},
-                        width:144,
+                        width: 144,
                     }
                 );
             }
@@ -135,12 +145,7 @@
             this.$store.watch((state, getters) => getters['Samples/getSamples'], (samples) => {
                 if (samples) {
                     this.samples = samples;
-                    if (!this.filteredSamples) {
-                        this.filteredSamples = samples;
-                    } else {
-                        const filteredKeys = new Set(this.filteredSamples.map(u => u.id));
-                        this.filteredSamples = this.samples.filter(u => filteredKeys.has(u.id));
-                    }
+                    this.loading = false;
                 }
             })
         },
