@@ -61,7 +61,6 @@
         data: function () {
             return {
                 users: undefined,
-                filteredUsers: undefined,
                 loading: true,
             }
         },
@@ -76,15 +75,21 @@
             options: function () {
                 return {
                     data: {
-                        items: this.filteredUsers,
+                        items: this.users,
                         onClick: user => this.openUserModal(user),
+                        sort: (key,order) => this.$store.dispatch('Users/sort', {key,order}),
                         loading: this.loading,
                         empty: 'Ľutujeme, nenašli sa žiadni užívatelia'
                     },
                     header: {
                         items: [
-                            'login',
-                            'role'
+                            {
+                                name: 'login',
+                            },
+                            {
+                                name: 'rola',
+                                key: 'role.name',
+                            },
                         ]
                     },
                     layout: {
@@ -97,9 +102,11 @@
         },
 
         methods: {
-            filterResults(result) {
+            filterResults(filter) {
                 if (this.users) {
-                    this.filteredUsers = this.users.filter(u => !u.login.indexOf(result))
+                    this.$store.dispatch('Users/filter', filter).then(() => {
+                        this.users = this.$store.getters['Users/getUsers'];
+                    })
                 }
             },
 
@@ -123,12 +130,7 @@
             this.$store.watch((state, getters) => getters['Users/getUsers'], users => {
                 if (users) {
                     this.users = users;
-                    if (!this.filteredUsers) {
-                        this.filteredUsers = users;
-                    } else {
-                        const filteredKeys = new Set(this.filteredUsers.map(u => u.id));
-                        this.filteredUsers = this.users.filter(u => filteredKeys.has(u.id));
-                    }
+                    this.loading = false;
                 }
             })
         },

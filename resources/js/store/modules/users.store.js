@@ -1,16 +1,41 @@
-const state = {
-        users: [],
-    }
-;
+import methods from "../../methods";
 
+const state = {
+    users: [],
+    filtered: [],
+};
 
 const getters = {
     getUsers: (state) => {
-        return state.users
+        return state.filtered
     },
 };
 
 const actions = {
+    sort: (context, {key, order}) => {
+
+        // set sort options
+        context.commit('Table/SET_SORT', {key, order}, {root: true});
+
+        // merge users and filtered users
+        const filteredKeys = new Set(context.state.filtered.map(u => u.id));
+        context.commit(
+            'SET_FILTERED_USERS',
+            methods.sort(
+                context.state.users.filter(u => filteredKeys.has(u.id)),
+                key,
+                order));
+        return context.state.filtered;
+    },
+
+    filter: (context,filter) => {
+        context.commit(
+            'SET_FILTERED_USERS',
+            context.state.users.filter(u => !u.login.indexOf(filter))
+        );
+        context.dispatch('sort',context.rootGetters['Table/getSort']);
+    },
+
     updateUser: (context, user) => {
         context.commit('UPDATE_USER', user)
     },
@@ -37,8 +62,13 @@ const actions = {
 };
 
 const mutations = {
+        SET_FILTERED_USERS(state, users) {
+            state.filtered = users;
+        },
+
         SET_USERS(state, users) {
             state.users = users;
+            state.filtered = state.users;
         },
 
         UPDATE_USER(state, user) {

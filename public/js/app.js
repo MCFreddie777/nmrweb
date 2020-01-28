@@ -2883,8 +2883,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mixins_Helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../mixins/Helpers */ "./resources/js/mixins/Helpers.js");
-/* harmony import */ var _mixins_UiTableMethods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/UiTableMethods */ "./resources/js/mixins/UiTableMethods.js");
 //
 //
 //
@@ -2951,13 +2949,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ui-table",
-  mixins: [// UiTableMixin,
-    // HelperMixin
-  ],
   props: {
     options: {
       type: Object,
@@ -2966,7 +2970,8 @@ __webpack_require__.r(__webpack_exports__);
         type: [Array, Object],
         loading: Boolean,
         empty: String,
-        onClick: Function
+        onClick: Function,
+        sort: Function
       },
       header: {
         type: Object,
@@ -2981,7 +2986,28 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  created: function created() {// console.log("This.methods: ",this.methods);
+  data: function data() {
+    return {
+      sort: {
+        key: undefined,
+        order: undefined
+      }
+    };
+  },
+  methods: {
+    sortItems: function sortItems(key) {
+      var order = key === this.sort.key ? this.sort.order === 'DESC' ? 'ASC' : 'DESC' : 'DESC';
+      this.options.data.sort(key, order);
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.watch(function (state, getters) {
+      return getters['Table/getSort'];
+    }, function (sort) {
+      if (sort) _this.sort = sort;
+    });
   }
 });
 
@@ -3113,7 +3139,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       users: undefined,
-      filteredUsers: undefined,
       loading: true
     };
   },
@@ -3128,15 +3153,26 @@ __webpack_require__.r(__webpack_exports__);
 
       return {
         data: {
-          items: this.filteredUsers,
+          items: this.users,
           onClick: function onClick(user) {
             return _this.openUserModal(user);
+          },
+          sort: function sort(key, order) {
+            return _this.$store.dispatch('Users/sort', {
+              key: key,
+              order: order
+            });
           },
           loading: this.loading,
           empty: 'Ľutujeme, nenašli sa žiadni užívatelia'
         },
         header: {
-          items: ['login', 'role']
+          items: [{
+            name: 'login'
+          }, {
+            name: 'rola',
+            key: 'role.name'
+          }]
         },
         layout: {
           '0': {
@@ -3147,10 +3183,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    filterResults: function filterResults(result) {
+    filterResults: function filterResults(filter) {
+      var _this2 = this;
+
       if (this.users) {
-        this.filteredUsers = this.users.filter(function (u) {
-          return !u.login.indexOf(result);
+        this.$store.dispatch('Users/filter', filter).then(function () {
+          _this2.users = _this2.$store.getters['Users/getUsers'];
         });
       }
     },
@@ -3165,27 +3203,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.$store.dispatch('Users/fetchUsers').then(function () {
-      _this2.loading = false;
+      _this3.loading = false;
     });
     this.$store.watch(function (state, getters) {
       return getters['Users/getUsers'];
     }, function (users) {
       if (users) {
-        _this2.users = users;
-
-        if (!_this2.filteredUsers) {
-          _this2.filteredUsers = users;
-        } else {
-          var filteredKeys = new Set(_this2.filteredUsers.map(function (u) {
-            return u.id;
-          }));
-          _this2.filteredUsers = _this2.users.filter(function (u) {
-            return filteredKeys.has(u.id);
-          });
-        }
+        _this3.users = users;
+        _this3.loading = false;
       }
     });
   }
@@ -3460,7 +3488,18 @@ __webpack_require__.r(__webpack_exports__);
           empty: 'Ľutujeme, nenašli sa žiadne vzorky'
         },
         header: {
-          items: ['id', 'názov', 'používateľ', 'dátum']
+          items: [{
+            name: 'id'
+          }, {
+            name: 'názov',
+            key: 'name'
+          }, {
+            name: 'používateľ',
+            key: 'user.login'
+          }, {
+            name: 'dátum',
+            key: 'created_at'
+          }]
         },
         layout: {
           '0': {
@@ -23823,10 +23862,30 @@ var render = function() {
             "th",
             {
               staticClass:
-                "py-1 pb-4 font-normal uppercase text-xs text-gray-500",
-              class: _vm.$methods.tableRowsClassObject(_vm.options, index)
+                "py-1 pb-4 font-normal uppercase text-xs text-gray-500 hover:cursor-pointer relative",
+              class: [
+                _vm.$methods.tableRowsClassObject(_vm.options, index),
+                { "font-bold": _vm.sort.key === (item.key || item.name) }
+              ],
+              on: {
+                click: function($event) {
+                  return _vm.sortItems(item.key || item.name)
+                }
+              }
             },
-            [_vm._v("\n            " + _vm._s(item) + "\n        ")]
+            [
+              _vm._v("\n            " + _vm._s(item.name) + "\n            "),
+              _vm.sort.key === (item.key || item.name)
+                ? _c("i", {
+                    staticClass: "fas ml-1 absolute top-0",
+                    class:
+                      _vm.sort.order === "DESC"
+                        ? "fa-sort-down mt-1"
+                        : "fa-sort-up mt-2",
+                    staticStyle: { top: "1px" }
+                  })
+                : _vm._e()
+            ]
           )
         }),
         0
@@ -42134,11 +42193,28 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _methods__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../methods */ "./resources/js/methods.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   tableRowsClassObject: function tableRowsClassObject(options, index) {
     return [options.layout[index] && options.layout[index].width ? "w-".concat(options.layout[index].width) : '', options.layout[index] && options.layout[index]['width-sm'] ? "sm:w-".concat(options.layout[index]['width-sm']) : '', {
       'first:pl-6 text-left justify-start': options.layout[index] && options.layout[index].left
     }];
+  },
+  sort: function sort(items, key, order) {
+    var _items = _toConsumableArray(items);
+
+    return _items.sort(function (itemA, itemB) {
+      if (order === 'DESC') return ('' + _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key)).localeCompare(_methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key));else return ('' + _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key)).localeCompare(_methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key));
+    });
   }
 });
 
@@ -42156,19 +42232,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var _views_BaseView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/BaseView */ "./resources/js/views/BaseView.vue");
-/* harmony import */ var _views_LoginView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/LoginView */ "./resources/js/views/LoginView.vue");
-/* harmony import */ var _views_App_Sample_SampleList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/App/Sample/SampleList */ "./resources/js/views/App/Sample/SampleList.vue");
-/* harmony import */ var _views_App_ChangePasswordView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/App/ChangePasswordView */ "./resources/js/views/App/ChangePasswordView.vue");
-/* harmony import */ var _views_App_Admin_User_UserList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/App/Admin/User/UserList */ "./resources/js/views/App/Admin/User/UserList.vue");
-/* harmony import */ var _views_App_File_FileList__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/App/File/FileList */ "./resources/js/views/App/File/FileList.vue");
-/* harmony import */ var _views_App_Admin_User_UserEdit__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/App/Admin/User/UserEdit */ "./resources/js/views/App/Admin/User/UserEdit.vue");
-/* harmony import */ var _views_App_Admin_User_UserCreate__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/App/Admin/User/UserCreate */ "./resources/js/views/App/Admin/User/UserCreate.vue");
-/* harmony import */ var _views_App_Sample_SampleCreate__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/App/Sample/SampleCreate */ "./resources/js/views/App/Sample/SampleCreate.vue");
-/* harmony import */ var _views_App_Sample_SampleEdit__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/App/Sample/SampleEdit */ "./resources/js/views/App/Sample/SampleEdit.vue");
-/* harmony import */ var _views_PageNotFoundView__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/PageNotFoundView */ "./resources/js/views/PageNotFoundView.vue");
-
+/* harmony import */ var _views_BaseView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/BaseView */ "./resources/js/views/BaseView.vue");
+/* harmony import */ var _views_LoginView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/LoginView */ "./resources/js/views/LoginView.vue");
+/* harmony import */ var _views_App_Sample_SampleList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/App/Sample/SampleList */ "./resources/js/views/App/Sample/SampleList.vue");
+/* harmony import */ var _views_App_ChangePasswordView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/App/ChangePasswordView */ "./resources/js/views/App/ChangePasswordView.vue");
+/* harmony import */ var _views_App_Admin_User_UserList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/App/Admin/User/UserList */ "./resources/js/views/App/Admin/User/UserList.vue");
+/* harmony import */ var _views_App_File_FileList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/App/File/FileList */ "./resources/js/views/App/File/FileList.vue");
+/* harmony import */ var _views_App_Admin_User_UserEdit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/App/Admin/User/UserEdit */ "./resources/js/views/App/Admin/User/UserEdit.vue");
+/* harmony import */ var _views_App_Admin_User_UserCreate__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/App/Admin/User/UserCreate */ "./resources/js/views/App/Admin/User/UserCreate.vue");
+/* harmony import */ var _views_App_Sample_SampleCreate__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/App/Sample/SampleCreate */ "./resources/js/views/App/Sample/SampleCreate.vue");
+/* harmony import */ var _views_App_Sample_SampleEdit__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/App/Sample/SampleEdit */ "./resources/js/views/App/Sample/SampleEdit.vue");
+/* harmony import */ var _views_PageNotFoundView__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/PageNotFoundView */ "./resources/js/views/PageNotFoundView.vue");
 
 
 
@@ -42186,7 +42260,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: [{
     path: '/',
-    component: _views_BaseView__WEBPACK_IMPORTED_MODULE_3__["default"],
+    component: _views_BaseView__WEBPACK_IMPORTED_MODULE_2__["default"],
     redirect: '/samples',
     children: [{
       path: 'samples',
@@ -42197,17 +42271,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       },
       children: [{
         path: '/',
-        component: _views_App_Sample_SampleList__WEBPACK_IMPORTED_MODULE_5__["default"]
+        component: _views_App_Sample_SampleList__WEBPACK_IMPORTED_MODULE_4__["default"]
       }, {
         path: 'new',
-        component: _views_App_Sample_SampleCreate__WEBPACK_IMPORTED_MODULE_11__["default"]
+        component: _views_App_Sample_SampleCreate__WEBPACK_IMPORTED_MODULE_10__["default"]
       }, {
         path: ':id',
-        component: _views_App_Sample_SampleEdit__WEBPACK_IMPORTED_MODULE_12__["default"]
+        component: _views_App_Sample_SampleEdit__WEBPACK_IMPORTED_MODULE_11__["default"]
       }]
     }, {
       path: 'files',
-      component: _views_App_File_FileList__WEBPACK_IMPORTED_MODULE_8__["default"]
+      component: _views_App_File_FileList__WEBPACK_IMPORTED_MODULE_7__["default"]
     }, {
       path: 'users',
       component: {
@@ -42217,24 +42291,24 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       },
       children: [{
         path: '/',
-        component: _views_App_Admin_User_UserList__WEBPACK_IMPORTED_MODULE_7__["default"]
+        component: _views_App_Admin_User_UserList__WEBPACK_IMPORTED_MODULE_6__["default"]
       }, {
         path: 'new',
-        component: _views_App_Admin_User_UserCreate__WEBPACK_IMPORTED_MODULE_10__["default"]
+        component: _views_App_Admin_User_UserCreate__WEBPACK_IMPORTED_MODULE_9__["default"]
       }, {
         path: ':id',
-        component: _views_App_Admin_User_UserEdit__WEBPACK_IMPORTED_MODULE_9__["default"]
+        component: _views_App_Admin_User_UserEdit__WEBPACK_IMPORTED_MODULE_8__["default"]
       }]
     }, {
       path: 'change-password',
-      component: _views_App_ChangePasswordView__WEBPACK_IMPORTED_MODULE_6__["default"]
+      component: _views_App_ChangePasswordView__WEBPACK_IMPORTED_MODULE_5__["default"]
     }]
   }, {
     path: '/login',
-    component: _views_LoginView__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _views_LoginView__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
     path: "*",
-    component: _views_PageNotFoundView__WEBPACK_IMPORTED_MODULE_13__["default"]
+    component: _views_PageNotFoundView__WEBPACK_IMPORTED_MODULE_12__["default"]
   }],
   mode: 'history'
 }));
@@ -42279,6 +42353,7 @@ var map = {
 	"./auth.store.js": "./resources/js/store/modules/auth.store.js",
 	"./modal.store.js": "./resources/js/store/modules/modal.store.js",
 	"./samples.store.js": "./resources/js/store/modules/samples.store.js",
+	"./table.store.js": "./resources/js/store/modules/table.store.js",
 	"./users.store.js": "./resources/js/store/modules/users.store.js"
 };
 
@@ -42628,6 +42703,47 @@ var mutations = {
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/table.store.js":
+/*!***************************************************!*\
+  !*** ./resources/js/store/modules/table.store.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  sort: {
+    key: 'id',
+    order: 'DESC'
+  }
+};
+var actions = {};
+var getters = {
+  getSort: function getSort(state) {
+    return state.sort;
+  }
+};
+var mutations = {
+  SET_SORT: function SET_SORT(state, _ref) {
+    var key = _ref.key,
+        order = _ref.order;
+    state.sort = {
+      key: key,
+      order: order
+    };
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/modules/users.store.js":
 /*!***************************************************!*\
   !*** ./resources/js/store/modules/users.store.js ***!
@@ -42637,21 +42753,49 @@ var mutations = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _methods__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../methods */ "./resources/js/methods.js");
+
 var state = {
-  users: []
+  users: [],
+  filtered: []
 };
 var getters = {
   getUsers: function getUsers(state) {
-    return state.users;
+    return state.filtered;
   }
 };
 var actions = {
+  sort: function sort(context, _ref) {
+    var key = _ref.key,
+        order = _ref.order;
+    // set sort options
+    context.commit('Table/SET_SORT', {
+      key: key,
+      order: order
+    }, {
+      root: true
+    }); // merge users and filtered users
+
+    var filteredKeys = new Set(context.state.filtered.map(function (u) {
+      return u.id;
+    }));
+    context.commit('SET_FILTERED_USERS', _methods__WEBPACK_IMPORTED_MODULE_0__["default"].sort(context.state.users.filter(function (u) {
+      return filteredKeys.has(u.id);
+    }), key, order));
+    return context.state.filtered;
+  },
+  filter: function filter(context, _filter) {
+    context.commit('SET_FILTERED_USERS', context.state.users.filter(function (u) {
+      return !u.login.indexOf(_filter);
+    }));
+    context.dispatch('sort', context.rootGetters['Table/getSort']);
+  },
   updateUser: function updateUser(context, user) {
     context.commit('UPDATE_USER', user);
   },
-  fetchUsers: function fetchUsers(_ref) {
-    var dispatch = _ref.dispatch,
-        commit = _ref.commit;
+  fetchUsers: function fetchUsers(_ref2) {
+    var dispatch = _ref2.dispatch,
+        commit = _ref2.commit;
     return new Promise(function (resolve) {
       axios.get('api/users').then(function (res) {
         commit('SET_USERS', res.data.users);
@@ -42668,8 +42812,12 @@ var actions = {
   }
 };
 var mutations = {
+  SET_FILTERED_USERS: function SET_FILTERED_USERS(state, users) {
+    state.filtered = users;
+  },
   SET_USERS: function SET_USERS(state, users) {
     state.users = users;
+    state.filtered = state.users;
   },
   UPDATE_USER: function UPDATE_USER(state, user) {
     state.users = state.users.map(function (_user) {

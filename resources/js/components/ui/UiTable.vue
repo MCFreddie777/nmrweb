@@ -7,10 +7,21 @@
         <tr>
             <th
                 v-for="(item,index) in options.header.items"
-                class="py-1 pb-4 font-normal uppercase text-xs text-gray-500"
-                :class=$methods.tableRowsClassObject(options,index)
+                class="py-1 pb-4 font-normal uppercase text-xs text-gray-500 hover:cursor-pointer relative"
+                :class="[
+                    $methods.tableRowsClassObject(options,index),
+                    {'font-bold': sort.key === (item.key || item.name)}
+            ]"
+
+                @click="sortItems(item.key || item.name)"
             >
-                {{ item }}
+                {{ item.name }}
+                <i
+                    v-if="sort.key === (item.key || item.name)"
+                    class="fas ml-1 absolute top-0"
+                    style="top:1px"
+                    :class="sort.order === 'DESC' ? 'fa-sort-down mt-1' : 'fa-sort-up mt-2'"
+                />
             </th>
         </tr>
         </thead>
@@ -65,16 +76,8 @@
 </template>
 
 <script>
-    import HelperMixin from "../../mixins/Helpers";
-    import UiTableMixin from "../../mixins/UiTableMethods";
-
     export default {
         name: "ui-table",
-
-        mixins: [
-            // UiTableMixin,
-            // HelperMixin
-        ],
 
         props: {
             options: {
@@ -85,6 +88,7 @@
                     loading: Boolean,
                     empty: String,
                     onClick: Function,
+                    sort: Function,
                 },
                 header: {
                     type: Object,
@@ -99,8 +103,27 @@
                 }
             }
         },
-        created() {
-            // console.log("This.methods: ",this.methods);
+
+        data: function () {
+            return {
+                sort: {
+                    key: undefined,
+                    order: undefined,
+                },
+            }
+        },
+
+        methods: {
+            sortItems(key) {
+                const order = (key === this.sort.key) ? (this.sort.order === 'DESC') ? 'ASC' : 'DESC' : 'DESC';
+                this.options.data.sort(key, order);
+            }
+        },
+
+        mounted() {
+            this.$store.watch((state, getters) => getters['Table/getSort'], sort => {
+                if (sort) this.sort = sort
+            })
         }
     }
 </script>
