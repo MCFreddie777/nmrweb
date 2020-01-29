@@ -42819,7 +42819,7 @@ var actions = {
   },
   filter: function filter(context, _filter) {
     context.commit('SET_FILTERED_USERS', context.state.users.filter(function (u) {
-      return !u.login.includes(_filter);
+      return u.login.includes(_filter);
     }));
     context.dispatch('sort', context.rootGetters['Table/getSort']);
   },

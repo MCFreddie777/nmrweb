@@ -30,7 +30,7 @@ const actions = {
     filter: (context, filter) => {
         context.commit(
             'SET_FILTERED_USERS',
-            context.state.users.filter(u => !u.login.includes(filter))
+            context.state.users.filter(u => u.login.includes(filter))
         );
         context.dispatch('sort', context.rootGetters['Table/getSort']);
     },
