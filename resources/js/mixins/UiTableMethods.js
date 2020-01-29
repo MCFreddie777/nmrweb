@@ -12,11 +12,18 @@ export default {
     sort: (items, key, order) => {
         const _items = [...items];
         return _items.sort((itemA, itemB) => {
-            if (order === 'DESC')
-                return ('' + methods.getNested(itemA, key)).localeCompare(methods.getNested(itemB, key));
-            else
-                return ('' + methods.getNested(itemB, key)).localeCompare(methods.getNested(itemA, key));
+            if (isNaN(methods.getNested(itemA, key))) {
+                if (order === 'DESC')
+                    return ('' + methods.getNested(itemA, key)).localeCompare(methods.getNested(itemB, key));
+                else
+                    return ('' + methods.getNested(itemB, key)).localeCompare(methods.getNested(itemA, key));
 
+            } else {
+                if (order === 'DESC')
+                    return (methods.getNested(itemA, key) - methods.getNested(itemB, key));
+                else
+                    return (methods.getNested(itemB, key) - methods.getNested(itemA, key));
+            }
         })
     }
 };

@@ -42210,7 +42210,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     var _items = _toConsumableArray(items);
 
     return _items.sort(function (itemA, itemB) {
-      if (order === 'DESC') return ('' + _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key)).localeCompare(_methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key));else return ('' + _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key)).localeCompare(_methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key));
+      if (isNaN(_methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key))) {
+        if (order === 'DESC') return ('' + _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key)).localeCompare(_methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key));else return ('' + _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key)).localeCompare(_methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key));
+      } else {
+        if (order === 'DESC') return _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key) - _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key);else return _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemB, key) - _methods__WEBPACK_IMPORTED_MODULE_0__["default"].getNested(itemA, key);
+      }
     });
   }
 });
