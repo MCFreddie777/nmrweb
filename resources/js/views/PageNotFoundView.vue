@@ -25,21 +25,24 @@
     </div>
 </template>
 
-<script>
-    import UiButton from "../components/ui/UiButton";
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
-    export default {
-        name: "PageNotFoundView",
+    import UiButton from "../components/ui/UiButton.vue";
 
-        components:{
+    @Component({
+        components: {
             UiButton
         },
-
         head: {
-            title: {
-                inner: '404 - Stránka nenájdená'
+            title() {
+                return {
+                    inner: '404 - Stránka nenájdená'
+                }
             }
-        },
+        }
+    })
+    export default class PageNotFoundView extends Vue {
     }
 </script>
 

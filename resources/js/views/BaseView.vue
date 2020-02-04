@@ -1,8 +1,8 @@
 <template>
     <div class="h-screen bg-white flex">
-        <Alert/>
-        <Modal/>
-        <Navigation/>
+        <alert/>
+        <modal/>
+        <navigation/>
         <div
             class="flex flex-col flex-1 h-screen max-h-full overflow-y-auto"
         >
@@ -21,8 +21,8 @@
                         class="flex px-5 items-center hover:cursor-pointer hover:bg-gray-100"
                         to="/change-password"
                     >
-                        <UserCircle :name="user.name"/>
-                        <span class="pl-3 text-gray-900">{{ user.name }}</span>
+                        <user-circle :name="user.login"/>
+                        <span class="pl-3 text-gray-900">{{ user.login }}</span>
                     </router-link>
                 </div>
             </div>
@@ -36,28 +36,27 @@
     </div>
 </template>
 
-<script>
-    import Navigation from "../components/Navigation/Navigation";
-    import UserCircle from "../components/User/UserCircle";
-    import Modal from "../components/Modal/Modal";
-    import Alert from "../components/Alert/Alert";
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
-    export default {
-        name: "BasicView",
+    import Navigation from "../components/Navigation/Navigation.vue";
+    import UserCircle from "../components/User/UserCircle.vue";
+    import Modal from "../components/Modal/Modal.vue";
+    import Alert from "../components/Alert/Alert.vue";
+    import {User} from "../store/modules/user.store";
+    import {namespace} from "vuex-class";
 
-        data() {
-            return {
-                user: {
-                    name: 'admin'
-                }
-            }
-        },
+    const auth = namespace('AuthStore');
 
+    @Component({
         components: {
             Navigation,
             UserCircle,
             Modal,
             Alert
-        },
+        }
+    })
+    export default class BaseView extends Vue {
+        @auth.Getter('user') user !: User;
     }
 </script>

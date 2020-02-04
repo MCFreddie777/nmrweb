@@ -4,18 +4,19 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "FileList",
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
+    @Component({
         head: {
-            title: {
-                inner: 'Súbory'
+            title() {
+                return {
+                    inner: 'Súbory'
+                }
             }
-        },
+        }
+    })
+    export default class FileListView extends Vue {
+
     }
 </script>
-
-<style scoped>
-
-</style>

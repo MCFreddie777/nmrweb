@@ -68,37 +68,29 @@
     </div>
 </template>
 
-<script>
-    import UiInput from "../components/ui/UiInput";
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
+    import {namespace} from "vuex-class";
 
-    export default {
-        name: "LoginView.vue",
+    import UiInput from "../components/ui/UiInput.vue";
 
+    const auth = namespace('AuthStore');
+
+    @Component({
         components: {
             UiInput,
         },
-
         head: {
-            title: {
-                inner: 'Prihlásenie'
+            title() {
+                return {inner: 'Prihlásenie'}
             }
         },
+    })
+    export default class LoginView extends Vue {
+        @auth.Getter('csrf') csrf !: string;
+        @auth.Action('logIn') login !: Function;
 
-        computed: {
-            csrf: function () {
-                return this.$store.getters['Auth/csrf']
-            }
-        },
-
-        methods: {
-            login() {
-                this.$store.dispatch('Auth/logIn')
-            },
-
-            old(param) {
-
-            }
-        }
+        old() {}
     }
 </script>
 

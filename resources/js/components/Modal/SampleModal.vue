@@ -48,7 +48,7 @@
         <div class="flex justify-end mt-3">
             <ui-button
                 class="secondary rounded-full"
-                @click="$store.dispatch('Modal/dismiss')"
+                @click="dismissModal"
                 text="Zavrieť"
             />
             <router-link
@@ -63,34 +63,32 @@
     </div>
 </template>
 
-<script>
-    import UiButton from "../ui/UiButton";
-    import UiLabel from "../ui/UiLabel";
-    import UiCheckbox from "../ui/UiCheckbox";
+<script lang="ts">
+    import UiButton from "../ui/UiButton.vue";
+    import UiLabel from "../ui/UiLabel.vue";
+    import UiCheckbox from "../ui/UiCheckbox.vue";
+    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {namespace} from "vuex-class";
+    import {Sample} from "../../store/modules/sample.store";
 
-    export default {
-        name: "SampleModal",
+    const modal = namespace('ModalStore');
 
-        data: function () {
-            return {
-                jsmeApplet: undefined,
-            }
-        },
-
-        props: {
-            sample: {
-                type: Object,
-                required: true,
-            }
-        },
-
+    @Component({
         components: {
             UiButton,
             UiLabel,
             UiCheckbox,
         },
+    })
+    export default class SampleModalComponent extends Vue {
+        @modal.Action('dismiss') dismissModal!: () => void;
+        private jsmeApplet !: any;
+
+        @Prop({required: true})
+        private sample!: Sample;
 
         mounted() {
+            //@ts-ignore
             this.jsmeApplet = new JSApplet.JSME("jsme", {
                 options: "newlook,depict"
             });
@@ -98,7 +96,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

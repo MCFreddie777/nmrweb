@@ -19,38 +19,31 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "NavigationItem",
+<script lang="ts">
+    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {namespace} from "vuex-class";
 
-        props: {
-            'item': {
-                type: Object,
-                required: true,
-            }
-        },
+    const app = namespace('AppStore');
 
-        computed: {
-            collapsed: function () {
-                return this.$store.getters['App/isNavigationCollapsed'];
-            },
-        },
+    @Component
+    export default class NavigationItem extends Vue {
+        @app.Getter('isNavigationCollapsed') collapsed !: boolean;
+
+        @Prop({required: true})
+        item !: NavigationItem;
     }
 </script>
 
 <style scoped lang="scss">
     .router-link-active {
         i {
-            //noinspection CssInvalidAtRule
             @apply .text-yellow-500;
         }
 
-        //noinspection CssInvalidAtRule
         @apply .bg-gray-700 .text-gray-500;
     }
 
     :not([data-collapsed]) > .router-link-active {
-        //noinspection CssInvalidAtRule
         @apply .border-r-4 .border-yellow-500 ;
     }
 </style>

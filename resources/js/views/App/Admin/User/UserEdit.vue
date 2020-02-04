@@ -1,22 +1,22 @@
 <template>
-
+    <div>
+        UserEdit.vue
+    </div>
 </template>
 
-<script>
-    export default {
-        name: "UserDetail",
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
+    @Component({
         head: {
-            title: {
-                //Todo: right name
-                inner: 'Používateľ'
+            title() {
+                return {
+                    inner: 'Používateľ'
+                }
             }
-        },
-
-        mounted() {
-            this.$store.dispatch('Modal/dismiss')
         }
-    }
+    })
+    export default class UserEditView extends Vue {}
 </script>
 
 <style scoped>

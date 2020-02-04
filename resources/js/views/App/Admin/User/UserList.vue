@@ -7,7 +7,7 @@
                 <SearchBar
                     class="shadow-sm border mr-3"
                     @valueChange="filterResults"
-                    extendable
+                    :extendable="true"
                 />
                 <ui-button
                     icon="fas fa-plus"
@@ -26,7 +26,7 @@
                     :class="$methods.tableRowsClassObject(options,0)"
                 >
                     <div class="flex items-center">
-                        <UserCircle :name="tableItem.login"/>
+                        <user-circle :name="tableItem.login"/>
                         <span class="ml-3">{{ tableItem.login }}</span>
                     </div>
                 </td>
@@ -42,98 +42,93 @@
     </div>
 </template>
 
-<script>
-    import SearchBar from "../../../../components/SearchBar";
-    import UiButton from "../../../../components/ui/UiButton";
-    import UiTable from "../../../../components/ui/UiTable";
-    import UserCircle from "../../../../components/User/UserCircle";
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
-    export default {
-        name: "UserList",
+    import SearchBar from "../../../../components/SearchBar.vue";
+    import UiButton from "../../../../components/ui/UiButton.vue";
+    import UiTable from "../../../../components/ui/UiTable.vue";
+    import UserCircle from "../../../../components/User/UserCircle.vue";
+    import {SortOptions, TableOptions} from "../../../../store/modules/table.store";
+    import {User} from "../../../../store/modules/user.store";
+    import {namespace} from "vuex-class";
 
+    const users = namespace('UserStore');
+    const modal = namespace('ModalStore');
+
+    @Component({
         components: {
             SearchBar,
             UiButton,
             UiTable,
             UserCircle
         },
-
-        data: function () {
-            return {
-                users: undefined,
-                loading: true,
-            }
-        },
-
         head: {
-            title: {
-                inner: 'Správa užívateľov'
-            }
-        },
-
-        computed: {
-            options: function () {
+            title() {
                 return {
-                    data: {
-                        items: this.users,
-                        onClick: user => this.openUserModal(user),
-                        sort: (key,order) => this.$store.dispatch('Users/sort', {key,order}),
-                        loading: this.loading,
-                        empty: 'Ľutujeme, nenašli sa žiadni užívatelia'
-                    },
-                    header: {
-                        items: [
-                            {
-                                name: 'login',
-                            },
-                            {
-                                name: 'rola',
-                                key: 'role.name',
-                            },
-                        ]
-                    },
-                    layout: {
-                        '0': {
-                            left: true
-                        },
-                    }
+                    inner: 'Správa užívateľov'
                 }
             }
         },
+    })
+    export default class UserListView extends Vue {
+        @users.Action('sort') private sortUsers!: (sort: SortOptions) => void;
+        @users.Action('filter') private filterUsers!: (filter: string) => void;
+        @users.Action('fetch') private fetchUsers!: () => Promise<User[]>;
+        @users.Getter('getUsers') private users !: User[];
+        @modal.Action('set') private setModal !: (payload: any) => void;
 
-        methods: {
-            filterResults(filter) {
-                if (this.users) {
-                    this.$store.dispatch('Users/filter', filter).then(() => {
-                        this.users = this.$store.getters['Users/getUsers'];
-                    })
+        private loading: boolean = true;
+
+        get options(): TableOptions<User> {
+            return {
+                data: {
+                    items: this.users,
+                    onClick: (user: User) => this.openUserModal(user),
+                    sort: (sort: SortOptions) => this.sortUsers(sort),
+                    loading: this.loading,
+                    empty: 'Ľutujeme, nenašli sa žiadni užívatelia',
+                },
+                header: {
+                    items: [
+                        {
+                            name: 'login',
+                        },
+                        {
+                            name: 'rola',
+                            key: 'role.name',
+                        },
+                    ],
+                },
+                layout: {
+                    '0': {
+                        left: true
+                    },
                 }
-            },
+            }
+        }
 
-            openUserModal(user) {
-                this.$store.dispatch(
-                    'Modal/setModal',
-                    {
-                        componentName: 'UserModal',
-                        componentProps: {user},
-                        center: false,
-                    }
-                );
-            },
-        },
+        filterResults(filter: string) {
+            if (this.users) {
+                this.filterUsers(filter);
+            }
+        }
+
+        openUserModal(user: User) {
+            this.setModal(
+                {
+                    componentName: 'UserModal',
+                    componentProps: {user},
+                    center: false,
+                }
+            );
+        }
 
         mounted() {
-            this.$store.dispatch('Users/fetchUsers').then(() => {
+            this.fetchUsers().then(() => {
                 this.loading = false;
-            });
-
-            this.$store.watch((state, getters) => getters['Users/getUsers'], users => {
-                if (users) {
-                    this.users = users;
-                    this.loading = false;
-                }
             })
-        },
+        }
     }
 </script>
 

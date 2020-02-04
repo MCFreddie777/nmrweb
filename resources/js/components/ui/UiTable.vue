@@ -12,7 +12,6 @@
                     $methods.tableRowsClassObject(options,index),
                     {'font-bold': sort.key === (item.key || item.name)}
             ]"
-
                 @click="sortItems(item.key || item.name)"
             >
                 {{ item.name }}
@@ -75,55 +74,23 @@
     </table>
 </template>
 
-<script>
-    export default {
-        name: "ui-table",
+<script lang="ts">
+    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {SortOptions, TableOptions} from "../../store/modules/table.store";
+    import {namespace} from "vuex-class";
 
-        props: {
-            options: {
-                type: Object,
-                required: true,
-                data: {
-                    type: [Array, Object],
-                    loading: Boolean,
-                    empty: String,
-                    onClick: Function,
-                    sort: Function,
-                },
-                header: {
-                    type: Object,
-                    required: true,
-                    items: {
-                        type: Array,
-                        required: true,
-                    }
-                },
-                layout: {
-                    type: Object,
-                }
-            }
-        },
+    const table = namespace('TableStore');
 
-        data: function () {
-            return {
-                sort: {
-                    key: undefined,
-                    order: undefined,
-                },
-            }
-        },
+    @Component
+    export default class UiTableComponent extends Vue {
+        @table.Getter('getSort') public sort !: SortOptions;
 
-        methods: {
-            sortItems(key) {
-                const order = (key === this.sort.key) ? (this.sort.order === 'DESC') ? 'ASC' : 'DESC' : 'DESC';
-                this.options.data.sort(key, order);
-            }
-        },
+        @Prop({required: true})
+        public options !: TableOptions<any>;
 
-        mounted() {
-            this.$store.watch((state, getters) => getters['Table/getSort'], sort => {
-                if (sort) this.sort = sort
-            })
+        sortItems(key: string) {
+            const order = (key === this.sort.key) ? (this.sort.order === 'DESC') ? 'ASC' : 'DESC' : 'DESC';
+            this.options.data.sort({key, order});
         }
     }
 </script>

@@ -8,7 +8,7 @@
         >
             <div
                 class="absolute close-btn top-0 right-0 w-4 h-4 flex justify-center text-gray-800 shadow hover:cursor-pointer"
-                @click="$store.dispatch('Alert/dismiss')"
+                @click="dismissAlert"
             >
                 <i class="fas fa-times"/>
             </div>
@@ -41,27 +41,27 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+    import {Component, Vue, Watch} from 'vue-property-decorator'
+    import {AlertOptions} from "../../store/modules/alert.store";
+    import {namespace} from "vuex-class";
 
-    export default {
-        name: "Alert",
+    const alert = namespace('AlertStore');
 
-        data: () => ({
-            alert: undefined,
-        }),
+    @Component
+    export default class AlertComponent extends Vue {
+        @alert.Action('dismiss') dismissAlert!: Function;
+        @alert.Getter('alert') public alert!: AlertOptions;
 
-        mounted() {
-            this.$store.watch((state, getters) => getters['Alert/alert'], (alert) => {
-                this.alert = alert;
-
-                if (this.alert && this.alert.type != 'error') {
-                    setTimeout(() => {
-                        this.$store.dispatch('Alert/dismiss');
-                    }, 7000)
-                }
-            });
-
-
+        @Watch('alert', {
+            immediate: true, deep: true
+        })
+        alertChanged(alert: AlertOptions) {
+            if (alert && alert.type && alert.type != 'error') {
+                setTimeout(() => {
+                    this.dismissAlert();
+                }, 7000)
+            }
         }
     }
 </script>

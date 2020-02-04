@@ -20,28 +20,25 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "ui-checkbox",
+<script lang="ts">
+    import {Component, Emit, Prop, Vue} from "vue-property-decorator";
 
-        props: {
-            name: {
-                type: String,
-                required: true,
-            },
-            checked: {
-                type: Boolean,
-            },
-            labeled: {
-                type: Boolean,
-                default: false,
-            }
-        },
-        methods: {
-            toggle() {
-                this.$emit('updateField', !this.checked);
-            }
-        },
+    @Component
+    export default class UiCheckboxComponent extends Vue {
+
+        @Prop({required: true})
+        public name!: string;
+
+        @Prop()
+        public checked !: boolean;
+
+        @Prop({default: false})
+        public labeled !: boolean;
+
+        @Emit('update-field')
+        toggle() {
+            return !this.checked;
+        }
     }
 </script>
 

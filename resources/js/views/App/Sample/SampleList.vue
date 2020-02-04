@@ -5,10 +5,10 @@
                 Vzorky
             </h1>
             <div class="flex justify-end">
-                <SearchBar
+                <search-bar
                     @valueChange="filterResults"
                     class="shadow-sm border mr-3"
-                    extendable
+                    :extendable="true"
                 />
                 <ui-button
                     icon="fas fa-plus"
@@ -44,110 +44,107 @@
     </div>
 </template>
 
-<script>
-    import SearchBar from "../../../components/SearchBar";
-    import UiButton from "../../../components/ui/UiButton";
-    import UiTable from "../../../components/ui/UiTable";
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
+    import {namespace} from "vuex-class";
 
-    export default {
-        name: "SampleList",
+    import SearchBar from "../../../components/SearchBar.vue";
+    import UiButton from "../../../components/ui/UiButton.vue";
+    import UiTable from "../../../components/ui/UiTable.vue";
+    import {Sample} from "../../../store/modules/sample.store";
+    import {SortOptions, TableOptions} from "../../../store/modules/table.store";
+    import {ModalOptions} from "../../../store/modules/modal.store";
 
+    const samples = namespace('SampleStore');
+    const modal = namespace('ModalStore');
+
+    @Component({
         components: {
             SearchBar,
             UiButton,
-            UiTable
+            UiTable,
         },
-
-        data: function () {
-            return {
-                samples: undefined,
-                loading: true,
-            }
-        },
-
         head: {
-            title: {
-                inner: 'Vzorky'
-            },
-            script: [
-                {type: 'text/javascript', src: "js/ext/jsme.nocache.js", async: false},
-            ],
-        },
-
-        computed: {
-            options: function () {
+            title(): any {
                 return {
-                    data: {
-                        items: this.samples,
-                        onClick: sample => this.openModal(sample),
-                        sort: (key, order) => this.$store.dispatch('Samples/sort', {key, order}),
-                        loading: this.loading,
-                        empty: 'Ľutujeme, nenašli sa žiadne vzorky'
-                    },
-                    header: {
-                        items: [
-                            {
-                                name: 'id',
-                            },
-                            {
-                                name: 'názov',
-                                key: 'name',
-                            },
-                            {
-                                name: 'používateľ',
-                                key: 'user.login',
-                            }, {
-                                name: 'dátum',
-                                key: 'created_at',
-                            },
-                        ],
-                    },
-                    layout: {
-                        '0': {
-                            width: 16,
-                        },
-                        '1': {
-                            width: 96,
-                            'width-sm': 64,
-                            left: true
-                        }
-                    }
-                }
-            }
-        },
-
-        methods: {
-            filterResults(filter) {
-                if (this.samples) {
-                    this.$store.dispatch('Samples/filter', filter).then(() => {
-                        this.samples = this.$store.getters['Samples/getSamples'];
-                    });
+                    inner: 'Vzorky'
                 }
             },
-
-            openModal(sample) {
-                this.$store.dispatch(
-                    'Modal/setModal',
-                    {
-                        componentName: 'SampleModal',
-                        componentProps: {sample},
-                        width: 144,
-                    }
-                );
+            script(): any {
+                return [
+                    {type: 'text/javascript', src: "js/ext/jsme.nocache.js", async: false},
+                ]
             }
-        },
+        }
+    })
+    export default class SampleListView extends Vue {
+        @samples.Action('fetchSamples') fetchSamples!: () => Promise<Sample[]>;
+        @samples.Action('sort') sortSamples !: (sort: SortOptions) => void;
+        @samples.Action('filter') filterSamples !: (filter: string) => void;
+        @modal.Action('set') setModal !: (modalOptions: ModalOptions) => void;
+        @samples.Getter('getSamples') samples !: Sample[];
+
+        private loading: boolean = true;
+
+        get options(): TableOptions<Sample> {
+            return {
+                data: {
+                    items: this.samples,
+                    onClick: (sample: Sample) => this.openModal(sample),
+                    sort: (sort: SortOptions) => this.sortSamples(sort),
+                    loading: this.loading,
+                    empty: 'Ľutujeme, nenašli sa žiadne vzorky',
+                },
+                header: {
+                    items: [
+                        {
+                            name: 'id',
+                        },
+                        {
+                            name: 'názov',
+                            key: 'name',
+                        },
+                        {
+                            name: 'používateľ',
+                            key: 'user.login',
+                        }, {
+                            name: 'dátum',
+                            key: 'created_at',
+                        },
+                    ],
+                },
+                layout: {
+                    '0': {
+                        width: 16,
+                    },
+                    '1': {
+                        width: 96,
+                        'width-sm': 64,
+                        left: true
+                    }
+                }
+            }
+        }
+
+        public filterResults(filter: string) {
+            if (this.samples) {
+                this.filterSamples(filter);
+            }
+        }
+
+        private openModal(sample: Sample) {
+            this.setModal({
+                componentName: 'SampleModal',
+                componentProps: {sample},
+                width: 144,
+                center: true,
+            });
+        }
 
         mounted() {
-            this.$store.dispatch('Samples/fetchSamples').then(() => {
+            this.fetchSamples().then(() => {
                 this.loading = false;
-            });
-
-            this.$store.watch((state, getters) => getters['Samples/getSamples'], (samples) => {
-                if (samples) {
-                    this.samples = samples;
-                    this.loading = false;
-                }
             })
-        },
+        };
     }
 </script>

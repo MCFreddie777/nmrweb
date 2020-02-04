@@ -22,37 +22,30 @@
     </div>
 </template>
 
-<script>
-    import UiCheckbox from "./UiCheckbox";
+<script lang="ts">
 
-    export default {
-        name: "ui-label",
+    import UiCheckbox from "./UiCheckbox.vue";
+    import {Component, Prop, Vue} from "vue-property-decorator";
 
+    @Component({
         components: {
             UiCheckbox,
-        },
-
-        props: {
-            item: {
-                type: Object,
-                name: {
-                    type: String,
-                    required: true,
-                },
-                value: {
-                    type: [String, Boolean, Number],
-                    required: true,
-                }
-            },
-            center: {
-                type: Boolean,
-                default: true,
-            },
-            type: {
-                type: String,
-                default: 'text',
-            }
         }
+    })
+    export default class UiLabelComponents extends Vue {
+        @Prop()
+        public item !: LabelItem;
+
+        @Prop({default: true})
+        public center !: boolean;
+
+        @Prop({default: 'text'})
+        public type !: string;
+    }
+
+    interface LabelItem {
+        name: string;
+        value: string | boolean | number;
     }
 </script>
 

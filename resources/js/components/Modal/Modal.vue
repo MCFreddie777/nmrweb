@@ -24,33 +24,29 @@
     </div>
 </template>
 
-<script>
-    import UserModal from "./UserModal";
-    import SampleModal from "./SampleModal";
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
-    export default {
-        name: "ui-modal",
+    import UserModal from "./UserModal.vue";
+    import SampleModal from "./SampleModal.vue";
+    import {Modal} from "../../store/modules/modal.store";
+    import {namespace} from "vuex-class";
 
-        data: () => ({
-            modal: undefined,
-        }),
+    const modal = namespace('ModalStore');
 
+    @Component({
         components: {
             UserModal,
             SampleModal
-        },
+        }
+    })
+    export default class ModalComponent extends Vue {
+        @modal.Action('dismiss') private dismissModal !: () => void;
+        @modal.Getter('getModal') public modal !: Modal;
 
-        methods: {
-            dismiss() {
-                this.$store.dispatch('Modal/dismiss');
-            }
-        },
-
-        mounted() {
-            this.$store.watch((state, getters) => getters['Modal/modal'], (modal) => {
-                this.modal = modal;
-            })
-        },
+        dismiss() {
+            this.dismissModal();
+        }
 
         created() {
             document.addEventListener('keyup', e => {

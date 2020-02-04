@@ -1,25 +1,21 @@
 <template>
     <div
         class="rounded-full text-white bg-yellow-500 w-10 h-10 flex justify-center items-center">
-        {{ userCircle }}
+        {{ firstChar }}
     </div>
 </template>
 
-<script>
-    export default {
-        name: "UserCircle",
+<script lang="ts">
+    import {Vue, Component, Prop} from "vue-property-decorator";
 
-        props: {
-            name: {
-                type: String,
-                required: true,
-            }
-        },
+    @Component
+    export default class UserCircleComponent extends Vue {
 
-        computed: {
-            userCircle: function () {
-                return this.name.split(' ').map(str => str[0]).join('').toUpperCase();
-            }
+        @Prop({required: true})
+        public name !: string;
+
+        get firstChar() {
+            return this.name.split(' ').map(str => str[0]).join('').toUpperCase();
         }
     }
 </script>

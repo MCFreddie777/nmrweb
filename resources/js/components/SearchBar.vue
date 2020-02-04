@@ -26,46 +26,45 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "SearchBar",
+<script lang="ts">
 
-        props: {
-            extendable: {
-                type: Boolean
+    import {Component, Vue, Prop} from "vue-property-decorator";
+
+    @Component
+    export default class SearchBarComponent extends Vue {
+        private timeout !: any;
+        private extended = false;
+
+        $refs!: {
+            input: HTMLFormElement
+        };
+
+        @Prop()
+        public extendable !: boolean;
+
+        valueChange(event: any) {
+            if (this.timeout) {
+                clearTimeout(this.timeout);
             }
-        },
+            this.timeout = setTimeout(() => {
+                this.timeout = undefined;
+                this.$emit('valueChange', event.target.value);
+            }, 250);
+        }
 
-        data: () => ({
-            timeout: undefined,
-            extended: false,
-        }),
+        handleClick() {
+            if (this.extendable && !this.extended) {
+                this.extended = true;
+            }
+            this.$nextTick(() => {
+                this.$refs.input.focus()
+            })
+        }
 
-        methods: {
-            valueChange(event) {
-                if (this.timeout) {
-                    clearTimeout(this.timeout);
-                }
-                this.timeout = setTimeout(() => {
-                    this.$emit('valueChange', event.target.value);
-                    this.timeout = undefined;
-                }, 250);
-            },
-
-            handleClick() {
-                if (this.extendable && !this.extended) {
-                    this.extended = true;
-                }
-                this.$nextTick(() => {
-                    this.$refs.input.focus()
-                })
-            },
-
-            handleBlur() {
-                if (!this.$refs.input.value.trim()) {
-                    this.extended = false;
-                }
-            },
+        handleBlur() {
+            if (!this.$refs.input.value.trim()) {
+                this.extended = false;
+            }
         }
     }
 </script>
@@ -81,7 +80,7 @@
     }
 
     div.rounded-full,
-    div.rounded-full input
+    div.rounded-full input,
     div[extendable],
     div[extendable] input {
         @apply rounded-full;

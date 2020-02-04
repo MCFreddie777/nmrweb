@@ -9,18 +9,17 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "ui-button",
-        props: {
-            text: {
-                type: String,
-                required: true,
-            },
-            icon: {
-                type: String,
-            }
-        }
+<script lang="ts">
+    import {Component, Prop, Vue} from "vue-property-decorator";
+
+    @Component
+    export default class UiButtonComponent extends Vue {
+
+        @Prop({required: true})
+        public text!: string;
+
+        @Prop()
+        public icon!: string;
     }
 </script>
 
@@ -36,9 +35,7 @@
             @apply rounded;
         }
 
-
         @apply px-3 py-1;
-
 
         &:hover {
             cursor: pointer;

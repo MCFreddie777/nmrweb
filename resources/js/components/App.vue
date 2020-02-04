@@ -2,14 +2,9 @@
     <router-view></router-view>
 </template>
 
-<script>
-    export default {
-        name: "App",
-    }
-</script>
+<script lang="ts">
+    import {Component, Vue} from 'vue-property-decorator';
 
-<style lang="scss">
-    .disabled {
-        @apply text-gray-600;
-    }
-</style>
+    @Component
+    export default class AppComponent extends Vue {};
+</script>

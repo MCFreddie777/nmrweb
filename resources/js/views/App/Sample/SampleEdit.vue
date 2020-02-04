@@ -2,20 +2,20 @@
 
 </template>
 
-<script>
-    export default {
-        name: "SampleEdit",
 
-        meta: {
-            title: {
-                //Todo: right name
-                inner: `Vzorka`
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
+
+    @Component({
+        head: {
+            title() {
+                return {
+                    inner: 'Vzorka'
+                }
             }
-        },
-
-        mounted() {
-            this.$store.dispatch('Modal/dismiss')
         }
+    })
+    export default class SampleEditView extends Vue {
     }
 </script>
 

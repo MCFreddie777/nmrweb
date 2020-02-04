@@ -135,7 +135,7 @@
                 <a
                     href="#"
                     class="text-gray-600 hover:text-gray-500 p-5 w-full text-center"
-                    @click.prevent="$store.dispatch('App/toggleNavigation')"
+                    @click.prevent="toggleNavigation"
                 >
                     <i
                         class="fas"
@@ -147,34 +147,30 @@
     </div>
 </template>
 
-<script>
-    import NavigationItemGroup from "./NavigationItemGroup";
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
+    import {namespace} from "vuex-class";
 
-    export default {
-        name: "Navigation",
+    import NavigationItemGroup from "./NavigationItemGroup.vue";
+    import {Navigation} from "../../store/modules/app.store";
 
+    const app = namespace('AppStore');
+    const auth = namespace('AuthStore');
+
+    @Component({
         components: {
             NavigationItemGroup,
         },
+        name: 'navigation'
+    })
+    export default class NavigationComponent extends Vue {
+        @app.Getter('navigationItems') navigation !: Navigation;
+        @app.Getter('isNavigationCollapsed') collapsed !: boolean;
+        @app.Action('toggleNavigation') toggleNavigation !: Function;
+        @auth.Action('logOut') logout !: Function;
 
-        computed: {
-            navigation: function () {
-                return this.$store.getters['App/navigationItems']
-            },
-
-            collapsed: function () {
-                return this.$store.getters['App/isNavigationCollapsed'];
-            },
-        },
-
-        methods: {
-            isActive(path) {
-                return this.$route.path.indexOf(path) === 0
-            },
-
-            logout() {
-                this.$store.dispatch('Auth/logOut');
-            },
-        },
+        public isActive(path: string) {
+            return this.$route.path.indexOf(path) === 0
+        }
     }
 </script>

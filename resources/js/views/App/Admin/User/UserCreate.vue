@@ -4,18 +4,18 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "UserCreate",
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
+    @Component({
         head: {
-            title: {
-                inner: 'Nový užívateľ'
+            title() {
+                return {
+                    inner: 'Nový užívateľ'
+                }
             }
-        },
+        }
+    })
+    export default class UserCreateView extends Vue {
     }
 </script>
-
-<style scoped>
-
-</style>

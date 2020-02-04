@@ -9,9 +9,10 @@
 </template>
 
 <script>
-    export default {
-        name: "UiLinkBack"
-    }
+    import {Component, Vue} from "vue-property-decorator";
+
+    @Component
+    export default class UiLinkBackComponent extends Vue {}
 </script>
 
 <style scoped>

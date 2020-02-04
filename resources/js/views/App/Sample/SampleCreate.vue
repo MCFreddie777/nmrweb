@@ -4,15 +4,19 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "SampleCreate",
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
+    @Component({
         head: {
-            title: {
-                inner: 'Nová vzorka'
+            title() {
+                return {
+                    inner: 'Nová vzorka'
+                }
             }
-        },
+        }
+    })
+    export default class SampleCreateView extends Vue {
     }
 </script>
 

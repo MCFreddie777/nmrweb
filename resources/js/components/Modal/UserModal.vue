@@ -18,7 +18,7 @@
         <div class="flex justify-end">
             <ui-button
                 class="secondary rounded-full"
-                @click="$store.dispatch('Modal/dismiss')"
+                @click="dismissModal"
                 text="Zavrieť"
             />
 
@@ -34,27 +34,26 @@
     </div>
 </template>
 
-<script>
-    import UiInput from "../ui/UiInput";
-    import UiButton from "../ui/UiButton";
+<script lang="ts">
+    import UiInput from "../ui/UiInput.vue";
+    import UiButton from "../ui/UiButton.vue";
+    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {User} from "../../store/modules/user.store";
+    import {namespace} from "vuex-class";
 
-    export default {
-        name: "UserModal",
+    const modal = namespace('ModalStore');
 
-        props: {
-            user: {
-                type: Object,
-                required: true,
-            }
-        },
-
+    @Component({
         components: {
             UiInput,
             UiButton
         },
+    })
+    export default class UserModalComponent extends Vue {
+        @modal.Action('dismiss') dismissModal!: () => void;
+
+        @Prop({required: true})
+        public user !: User;
     }
 </script>
 
-<style scoped>
-
-</style>

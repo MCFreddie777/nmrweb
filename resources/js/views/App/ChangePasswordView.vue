@@ -58,26 +58,27 @@
     </div>
 </template>
 
-<script>
-    import UiInput from "../../components/ui/UiInput";
-    import UiButton from "../../components/ui/UiButton";
 
-    export default {
-        name: "ChangePasswordView",
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
 
-        head: {
-            title: {
-                inner: 'Zmena hesla',
-            }
-        },
+    import UiInput from "../../components/ui/UiInput.vue";
+    import UiButton from "../../components/ui/UiButton.vue";
 
+    @Component({
         components: {
             UiInput,
             UiButton
+        },
+        head: {
+            title() {
+                return {
+                    inner: 'Zmena hesla',
+                }
+            }
         }
+    })
+    export default class ChangePasswordView extends Vue {
+
     }
 </script>
-
-<style scoped>
-
-</style>

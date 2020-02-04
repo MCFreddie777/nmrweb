@@ -12,32 +12,27 @@
     >
 </template>
 
-<script>
-    export default {
-        name: "ui-input",
+<script lang="ts">
+    import {Component, Prop, Vue} from "vue-property-decorator";
 
-        props: {
-            type: {
-                type: String,
-                default: 'text'
-            },
-            name: {
-                type: String,
-                required: true,
-            },
-            value: {
-                type: String,
-                default: '',
-            },
-            autofocus: {
-                type: Boolean,
-                default: false,
-            },
-            placeholder: {
-                type: String,
-                required: true,
-            }
-        }
+    @Component
+    export default class UiInputComponent extends Vue {
+
+        @Prop({default: 'text'})
+        public type !: string;
+
+        @Prop({required: true})
+        public name !: string;
+
+        @Prop({default: ''})
+        public value !: string;
+
+        @Prop({default: false})
+        public autofocus !: boolean;
+
+        @Prop({required: true})
+        public placeholder !: string;
+
     }
 </script>
 
