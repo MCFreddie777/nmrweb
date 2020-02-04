@@ -1,16 +1,16 @@
 export default {
-    getNested: (theObject, path, separator) => {
+    getNested: (theObject: any, path: string, separator?: string): number | string => {
         try {
             separator = separator || '.';
-
             return path.replace('[', separator).replace(']', '').split(separator).reduce(
-                function (obj, property) {
+                (obj, property) => {
+                    // @ts-ignore
                     return obj[property];
-                }, theObject
+                },
+                theObject
             );
-
         } catch (err) {
-            return undefined;
+            return null as unknown as string;
         }
-    },
+    }
 };
