@@ -51,7 +51,7 @@
     @Component
     export default class AlertComponent extends Vue {
         @alert.Action('dismiss') dismissAlert!: Function;
-        @alert.Getter('alert') public alert!: AlertOptions;
+        @alert.Getter('getAlert') public alert!: AlertOptions;
 
         @Watch('alert', {
             immediate: true, deep: true

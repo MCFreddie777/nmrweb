@@ -57,6 +57,7 @@
         }
     })
     export default class BaseView extends Vue {
-        @auth.Getter('user') user !: User;
+        @auth.Getter('getUser') user !: User;
     }
 </script>
+s
