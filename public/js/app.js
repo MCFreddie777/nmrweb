@@ -3429,7 +3429,7 @@ var AlertComponent = /** @class */ (function (_super) {
         alert.Action('dismiss')
     ], AlertComponent.prototype, "dismissAlert", void 0);
     __decorate([
-        alert.Getter('alert')
+        alert.Getter('getAlert')
     ], AlertComponent.prototype, "alert", void 0);
     __decorate([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Watch"])('alert', {
@@ -4972,7 +4972,7 @@ var BaseView = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
-        auth.Getter('user')
+        auth.Getter('getUser')
     ], BaseView.prototype, "user", void 0);
     BaseView = __decorate([
         Object(vue_property_decorator__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -24850,6 +24850,7 @@ Object.keys(_filters__WEBPACK_IMPORTED_MODULE_5__["default"]).forEach(function (
 });
 _router__WEBPACK_IMPORTED_MODULE_1__["default"].beforeEach(function (_to, _from, next) {
     _store__WEBPACK_IMPORTED_MODULE_3__["default"].dispatch('ModalStore/dismiss');
+    _store__WEBPACK_IMPORTED_MODULE_3__["default"].dispatch('AlertStore/dismiss');
     next();
 });
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
@@ -26372,29 +26373,26 @@ var AlertStore = /** @class */ (function (_super) {
     __extends(AlertStore, _super);
     function AlertStore() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._alert = {
-            active: true,
+        _this.alert = {
+            active: false,
             type: undefined,
             message: undefined,
         };
         return _this;
     }
-    Object.defineProperty(AlertStore.prototype, "alert", {
+    Object.defineProperty(AlertStore.prototype, "getAlert", {
         get: function () {
-            return {
-                type: this._alert.type,
-                message: this._alert.message
-            };
+            return this.alert;
         },
         enumerable: true,
         configurable: true
     });
     AlertStore.prototype.SET = function (options) {
-        this._alert = __assign({ active: true }, options);
+        this.alert = __assign({ active: true }, options);
     };
     ;
     AlertStore.prototype.REMOVE = function () {
-        this._alert = {
+        this.alert = {
             active: false,
             type: undefined,
             message: undefined,
@@ -26581,7 +26579,7 @@ var AuthStore = /** @class */ (function (_super) {
     __extends(AuthStore, _super);
     function AuthStore() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._user = {
+        _this.user = {
             id: 1,
             login: 'admin',
             role: 'admin',
@@ -26592,27 +26590,27 @@ var AuthStore = /** @class */ (function (_super) {
     }
     Object.defineProperty(AuthStore.prototype, "csrf", {
         get: function () {
-            return this._user.csrf;
+            return this.user.csrf;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AuthStore.prototype, "user", {
+    Object.defineProperty(AuthStore.prototype, "getUser", {
         get: function () {
             return {
-                id: this._user.id,
-                login: this._user.login,
-                role: this._user.role,
+                id: this.user.id,
+                login: this.user.login,
+                role: this.user.role,
             };
         },
         enumerable: true,
         configurable: true
     });
     AuthStore.prototype.LOGOUT = function () {
-        this._user.isLogged = false;
+        this.user.isLogged = false;
     };
     AuthStore.prototype.LOGIN = function () {
-        this._user.isLogged = true;
+        this.user.isLogged = true;
     };
     AuthStore.prototype.logIn = function () {
         this.context.commit('LOGIN');
@@ -26814,7 +26812,6 @@ var SampleStore = /** @class */ (function (_super) {
         return _methods__WEBPACK_IMPORTED_MODULE_0__["default"].sort(this.samples.filter(function (s) { return filteredKeys.has(s.id); }), key, order);
     };
     SampleStore.prototype.filter = function (filter) {
-        console.log("Filter: ", filter);
         this.context.commit('SET_FILTERED_SAMPLES', this.samples.filter(function (s) { return s.name.includes(filter) || s.user.login.includes(filter) || s.id.toString().includes(filter); }));
         this.context.dispatch('sort', this.context.rootGetters['TableStore/getSort']);
     };
@@ -27010,7 +27007,7 @@ var UserStore = /** @class */ (function (_super) {
                 resolve();
             })
                 .catch(function (e) {
-                _this.context.commit('AlertStore/setAlert', {
+                _this.context.dispatch('AlertStore/setAlert', {
                     type: 'error',
                     message: (e.response && e.response.data && e.response.data.message) ? e.response.data.message : undefined,
                 }, { root: true });

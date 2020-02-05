@@ -64,7 +64,7 @@ export default class UserStore extends VuexModule {
                     resolve();
                 })
                 .catch(e => {
-                    this.context.commit('AlertStore/setAlert',
+                    this.context.dispatch('AlertStore/setAlert',
                         {
                             type: 'error',
                             message: (e.response && e.response.data && e.response.data.message) ? e.response.data.message : undefined,

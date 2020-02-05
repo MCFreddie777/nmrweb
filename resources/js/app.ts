@@ -47,6 +47,7 @@ Object.keys(filters).forEach((f) => {
 
 router.beforeEach((_to: Route, _from: Route, next) => {
     store.dispatch('ModalStore/dismiss');
+    store.dispatch('AlertStore/dismiss');
     next();
 });
 
