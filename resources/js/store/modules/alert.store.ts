@@ -6,16 +6,13 @@ import {VuexModule, Module, Mutation, Action} from 'vuex-module-decorators'
 export default class AlertStore extends VuexModule {
 
     private alert: AlertObject = {
-        active: true,
+        active: false,
         type: undefined,
         message: undefined,
     };
 
-    get getAlert(): AlertOptions {
-        return {
-            type: this.alert.type,
-            message: this.alert.message
-        }
+    get getAlert(): AlertObject {
+        return this.alert;
     }
 
     @Mutation
