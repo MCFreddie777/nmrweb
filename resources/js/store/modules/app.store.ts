@@ -53,11 +53,13 @@ export default class AppStore extends VuexModule {
         return this.navigation.items;
     };
 
-    @Action({commit: 'TOGGLE_NAVIGATION'})
-    toggleNavigation() {}
+    @Action
+    toggleNavigation() {
+        this.context.commit('TOGGLE_NAVIGATION');
+    }
 
     @Mutation
-    public TOGGLE_NAVIGATION() {
+    TOGGLE_NAVIGATION() {
         this.navigation.collapsed = !this.navigation.collapsed
     }
 }

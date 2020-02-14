@@ -50,29 +50,27 @@ export default class UserStore extends VuexModule {
     }
 
     @Action({rawError: true})
-    updateUser(user: User): void {
+    updateUser(user: User) {
         this.UPDATE_USER(user);
     }
 
     @Action({rawError: true})
     fetch(): Promise<void> {
-        return new Promise(resolve => {
-            window.axios.get('api/users')
-                .then(response => {
-                    this.context.commit('TableStore/SET_SORT', {key: 'id', order: 'DESC'}, {root: true});
-                    this.context.commit('SET_USERS', response.data.users);
-                    resolve();
-                })
-                .catch(e => {
-                    this.context.dispatch('AlertStore/setAlert',
-                        {
-                            type: 'error',
-                            message: (e.response && e.response.data && e.response.data.message) ? e.response.data.message : undefined,
-                        },
-                        {root: true}
-                    );
-                });
-        });
+        return window.axios.get('api/users')
+            .then(response => {
+                this.context.commit('TableStore/SET_SORT', {key: 'id', order: 'DESC'}, {root: true});
+                this.context.commit('SET_USERS', response.data.users);
+            })
+            .catch(e => {
+                this.context.dispatch('AlertStore/setAlert',
+                    {
+                        type: 'error',
+                        message: (e.response && e.response.data && e.response.data.message) ? e.response.data.message : undefined,
+                    },
+                    {root: true}
+                );
+                throw new Error('Fetching users failed.');
+            });
     }
 }
 

@@ -16,7 +16,7 @@ export default class AlertStore extends VuexModule {
     }
 
     @Mutation
-    public SET(options: AlertOptions): void {
+    public SET(options: AlertOptions) {
         this.alert = {
             active: true,
             ...options
@@ -24,7 +24,7 @@ export default class AlertStore extends VuexModule {
     };
 
     @Mutation
-    public REMOVE(): void {
+    public REMOVE() {
         this.alert = {
             active: false,
             type: undefined,
@@ -32,14 +32,14 @@ export default class AlertStore extends VuexModule {
         };
     }
 
-    @Action({commit: 'SET'})
+    @Action
     public setAlert(options: AlertOptions) {
-        return options;
+        return this.context.commit('SET', options);
     };
 
     @Action
-    public dismiss(): void {
-        this.context.commit('REMOVE');
+    public dismiss() {
+        return this.context.commit('REMOVE');
     }
 }
 
