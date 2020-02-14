@@ -39,13 +39,16 @@ Vue.use(VueHead, {
 // Methods
 Vue.prototype.$methods = methods;
 
+// Debug flag
+Vue.prototype.$debug = true;
+
 // Filters
 Object.keys(filters).forEach((f) => {
     // @ts-ignore
     Vue.filter(f, filters[f]);
 });
 
-router.beforeEach((_to: Route, _from: Route, next) => {
+router.beforeEach((_to: Route, _from: Route, next: Function) => {
     store.dispatch('ModalStore/dismiss');
     store.dispatch('AlertStore/dismiss');
     next();

@@ -17,7 +17,7 @@ export default class ModalStore extends VuexModule {
     }
 
     @Mutation
-    SET(options: ModalOptions): void {
+    SET(options: ModalOptions) {
         this.modal = {
             active: true,
             center: options.center !== undefined ? options.center : false,
@@ -29,7 +29,7 @@ export default class ModalStore extends VuexModule {
     }
 
     @Mutation
-    REMOVE(): void {
+    REMOVE() {
         this.modal = {
             active: false,
             center: true,
@@ -41,12 +41,12 @@ export default class ModalStore extends VuexModule {
     }
 
     @Action
-    public set(options: ModalOptions): void {
+    set(options: ModalOptions) {
         this.context.commit('SET', options);
     }
 
     @Action
-    public dismiss(): void {
+    dismiss() {
         this.context.commit('REMOVE');
     }
 }

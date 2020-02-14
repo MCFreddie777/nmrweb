@@ -13,18 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('/login', 'Auth\AuthController@login');
+Route::post('/login', 'Auth\LoginController@login');
 
-Route::prefix('users')->group(function () {
-    Route::get('/', 'UsersController@index');
-    Route::post('/', 'UsersController@store');
+Route::middleware('auth:api')->group(function () {
+    Route::prefix('users')->group(function () {
+        Route::get('/', 'UsersController@index');
+        Route::post('/', 'UsersController@store');
+    });
+
+    Route::prefix('samples')->group(function () {
+        Route::get('/', 'SamplesController@index');
+    });
 });
-
-
-Route::prefix('samples')->group(function () {
-    Route::get('/', 'SamplesController@index');
-});
-
 
 Route::get('/{any}', function () {
     return abort(404);

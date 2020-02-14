@@ -127,7 +127,11 @@
         mounted() {
             this.fetchUsers().then(() => {
                 this.loading = false;
-            })
+            }).catch(error => {
+                if (Vue.prototype.$debug) {
+                    console.error("Error: ", error);
+                }
+            });
         }
     }
 </script>
