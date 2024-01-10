@@ -11,6 +11,7 @@ import UserCreate from "./views/App/Admin/User/UserCreate.vue";
 import SampleCreate from "./views/App/Sample/SampleCreate.vue";
 import SampleEdit from "./views/App/Sample/SampleEdit.vue";
 import PageNotFoundView from "./views/PageNotFoundView.vue";
+import store from "./store";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,13 @@ export default new VueRouter({
             path: '/',
             component: BaseView,
             redirect: '/samples',
+            beforeEnter: ((_from, _to, next) => {
+                if (!store.getters['AuthStore/getUser']) {
+                    next('/login');
+                } else {
+                    next();
+                }
+            }),
             children: [
                 {
                     path: 'samples',

@@ -1,15 +1,21 @@
 <template>
-    <input
-        :type="type"
-        :id="name"
-        :name="name"
-        class="p-2 px-3 rounded bg-gray-300 text-gray-700 outline-none placeholder-gray-500 self-center align-middle"
-        :value="value"
-        required
-        :autocomplete="type"
-        :autofocus="autofocus"
-        :placeholder="placeholder"
+    <div
+        class="px-3 pb-1 bg-gray-300 rounded"
     >
+        <!--            @input="$emit('input',$event.target.value)"-->
+        <input
+            :type="type"
+            :id="name"
+            :name="name"
+            class="bg-gray-300 pt-2 pb-1 text-gray-700 outline-none placeholder-gray-500 self-center align-middle w-full"
+            :autocomplete="type"
+            :autofocus="autofocus"
+            :placeholder="placeholder"
+            required
+            :value="value"
+            @input="$emit('input',$event.target.value)"
+        >
+    </div>
 </template>
 
 <script lang="ts">
@@ -33,11 +39,15 @@
         @Prop({required: true})
         public placeholder !: string;
 
+        // get getValue() {
+        //     return this.$refs.input.value;
+        // }
+
     }
 </script>
 
 <style scoped lang="scss">
-    input {
+    div {
         /* variants */
         &[labeled] {
             @apply pt-8;

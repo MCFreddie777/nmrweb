@@ -142,9 +142,15 @@
         }
 
         mounted() {
-            this.fetchSamples().then(() => {
-                this.loading = false;
-            })
+            this.fetchSamples()
+                .then(() => {
+                    this.loading = false;
+                })
+                .catch(error => {
+                    if (Vue.prototype.$debug) {
+                        console.error("Error: ", error);
+                    }
+                });
         };
     }
 </script>
