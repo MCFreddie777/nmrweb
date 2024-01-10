@@ -1,9 +1,9 @@
 <?php
 
+use App\Solvent;
 use Illuminate\Database\Seeder;
-use App\Role;
 
-class RolesTableSeeder extends Seeder
+class SolventsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Role::class, 3)->create();
+        factory(Solvent::class,5)->create();
     }
 }
