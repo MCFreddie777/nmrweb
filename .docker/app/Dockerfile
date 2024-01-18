@@ -29,7 +29,15 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
+# Copy entrypoint & set permissions
+COPY /.docker/app/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Set work directory
 WORKDIR /var/www/html
 
 USER $user
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["php-fpm"]

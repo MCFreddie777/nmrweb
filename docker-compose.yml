@@ -17,18 +17,21 @@ services:
       dockerfile: ./.docker/app/Dockerfile
     working_dir: /var/www/html
     volumes:
-      - ./.docker/app/init.sh:/home/init.sh
       - ./:/var/www/html
-    command: /bin/bash -c "composer install && php-fpm"
     depends_on:
       - db
+    entrypoint: /entrypoint.sh
+    command: php-fpm
 
   frontend:
-    image: node:16
-    working_dir: /var/www/html
+    build:
+      context: .
+      dockerfile: ./.docker/frontend/Dockerfile
+    working_dir: /app
     volumes:
-      - ./:/var/www/html
-    command: /bin/bash -c "npm install && npm run watch"
+      - ./:/app
+    entrypoint: /entrypoint.sh
+    command: npm run watch
 
   db:
     image: mysql:8.0
