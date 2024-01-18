@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 
 
 $factory->define(Sample::class, function (Faker $faker) {
-    $users = $users = User::whereHas('role', function($q){
+    $users = User::whereHas('role', function($q){
          $q->where('name', 'user');
      })->get();
     $grants = Grant::all()->pluck('id');
