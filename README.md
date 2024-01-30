@@ -46,10 +46,10 @@ Basic template for Laravel project with Vue in Docker container
 
 ## Development
 
-### 1. Run containers
-
-- Open terminal in the project root folder and run:
+- Open terminal in the project root folder and run the containers:
 
   ```shell
   docker compose up -d
   ```
+
+- Visit the webpage in browser - [http://localhost:8080](http://localhost:8080)
