@@ -18,6 +18,20 @@ mix.js('resources/js/app.ts', 'public/js')
         processCssUrls: false,
         postCss: [tailwindcss('tailwind.config.js')],
     })
+    .browserSync(
+        {
+            host: '0.0.0.0',
+            port: 3000,
+            ui: false,
+            open: false,
+            proxy: 'http://localhost:8080/', // Proxy to webpack dev server
+        },
+        {
+            // prevent BrowserSync from reloading the page
+            // and let Webpack Dev Server take care of this
+            reload: false
+        }
+    )
     .webpackConfig({
         module: {
             rules: [

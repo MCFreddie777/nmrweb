@@ -3,8 +3,6 @@ version: '3'
 services:
   nginx:
     image: nginx:1.20-alpine
-    ports:
-      - 8000:80
     volumes:
       - ./:/var/www/html
       - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -37,7 +35,8 @@ services:
       - ./:/app
     entrypoint: /entrypoint.sh
     ports:
-      - 8080:8080
+      - 3000:3000 # Browsersync
+      - 8080:8080 # Webpack dev server
     command: npm run dev
 
   db:

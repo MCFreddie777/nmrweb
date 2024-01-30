@@ -7,6 +7,8 @@
     "devDependencies": {
         "@types/lodash": "^4.14.149",
         "axios": "^0.19",
+        "browser-sync": "^2.29.3",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "cross-env": "^5.1",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.15",
@@ -25,6 +27,5 @@
         "vuex": "^3.1.2",
         "vuex-class": "^0.3.2",
         "vuex-module-decorators": "^0.11.0"
-    },
-    "dependencies": {}
+    }
 }

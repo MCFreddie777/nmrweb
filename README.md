@@ -52,4 +52,4 @@ Basic template for Laravel project with Vue in Docker container
   docker compose up -d
   ```
 
-- Visit the webpage in browser - [http://localhost:8080](http://localhost:8080)
+- Visit the webpage in browser - [http://localhost:3000](http://localhost:3000)
